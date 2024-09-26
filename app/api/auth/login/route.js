@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { ApolloClient, InMemoryCache, createHttpLink, gql } from '@apollo/client';
-import { serialize } from 'cookie';
 
 // Set up the client. 
 const client = new ApolloClient({
