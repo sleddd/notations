@@ -2,31 +2,19 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
-import { useState } from 'react';
 
 export const AuthWrapper = ({ children }) => {
-    const { user } = useAuth();
-    const [isLoading, setIsLoading] = useState(true);
+    const { user, loading } = useAuth();
     const router = useRouter();
-
     useEffect(() => {
-        // Check authentication status client-side
-        const checkAuth = async () => {
-            // Your client-side auth check logic here
-            if (!user) {
-                router.push('/');
-            }
-            setIsLoading(false);
-        };
+        if (!user && !loading) {
+            router.push('/');
+        }
+    }, [loading]);
 
-        checkAuth();
-    }, [router]);
-
-    if (isLoading) {
+    if (loading) {
         return <div>Loading...</div>;
     }
-
-    return <>{children}</>;
+    return <>{!!user && !loading ? <>{children}</> : ''}</>;
 }
-
 export default AuthWrapper;

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { ApolloClient, InMemoryCache, createHttpLink, gql } from '@apollo/client';
+import { serialize } from 'cookie';
 
 // Set up the client. 
 const client = new ApolloClient({
@@ -13,11 +14,10 @@ const client = new ApolloClient({
 // Take in request with username and password. 
 // Open a new client connection to the WP GraphQL endpoint.
 // Use the login mutation to get the user data.
-// Return the user data, so it can be used in the client.
+// Set login cookies and return the user data,
+// so it can be used in the client.
 export async function POST(request) {
-
-  const { username, password } = await request.json(); 
-
+  const { username, password } = await request.json();
   try {
     const { data } = await client.mutate({
       mutation: gql`
@@ -44,6 +44,7 @@ export async function POST(request) {
               capabilities
               firstName
               jwtAuthToken
+              jwtRefreshToken
               lastName
               nicename
               nickname
@@ -53,9 +54,28 @@ export async function POST(request) {
       `,
       variables: { username, password },
     });
-    return NextResponse.json(data?.login?.user);
+
+    // Extra data into variables.
+    const user = data?.login?.user;
+    const token = data?.login?.user?.jwtAuthToken;
+    const refreshToken = data?.login?.user?.jwtRefreshToken;
+
+    // Set the response. 
+    const response = NextResponse.json({
+      user,
+      token,
+    });
+
+    // Set the refresh token as an HTTP-only cookie to send
+    // with response.
+    response.cookies.set('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60, // 7 days in seconds
+    });
+    return response;
   } catch (error) {
-    console.log( error );
     return NextResponse.json({ message: 'Authentication failed' }, { status: 401 });
   }
 }

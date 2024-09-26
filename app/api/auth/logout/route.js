@@ -9,7 +9,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export async function POST(request) {
+export async function POST() {
   try {
     const { data } = await client.mutate({
       mutation: gql`mutation Logout {
@@ -18,7 +18,18 @@ export async function POST(request) {
       }
 	  }
   `,});
-    return NextResponse.json(data?.logout);
+
+    // Set the response.
+    const response = NextResponse.json(data?.logout);
+
+    // Delete refreshToken cookie on server side.
+    response.cookies.set('refreshToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      sameSite: 'strict',
+      maxAge: 0,
+    });
+    return response;
   } catch (error) {
     console.log( error );
     return NextResponse.json({ message: 'Authentication failed' }, { status: 401 });
