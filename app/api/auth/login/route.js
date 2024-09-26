@@ -25,29 +25,10 @@ export async function POST(request) {
           login(input: {password: $password, username: $username }) {
             user {
               id
-              email
-              name
-              username
               userId
-              roles {
-                nodes {
-                  capabilities
-                  isRestricted
-                  id
-                }
-                edges {
-                  node {
-                    capabilities
-                  }
-                }
-              }
-              capabilities
               firstName
               jwtAuthToken
               jwtRefreshToken
-              lastName
-              nicename
-              nickname
             }
           }
         }
