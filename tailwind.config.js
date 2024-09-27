@@ -7,6 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'one': "url('/assets/background-one.jpg')",
+        'two': "url('/assets/background-two.jpg')",
+        'three': "url('/assets/background-three.jpg')",
+        'four': "url('/assets/background-four.jpg')",
+      },
+      fontFamily: {
+        sans: ['var(--font-montserrat)', 'sans-serif'],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

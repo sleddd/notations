@@ -2,26 +2,160 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+@layer utilities {
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.21);
+  }
+  
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer components {
+
+  .fullwidth-background {
+    z-index: -1;
+    @apply fixed h-screen w-screen bg-cover bg-center bg-no-repeat bg-fixed bg-opacity-50;
   }
+  
+  .dark-overlay {
+    z-index: -1;
+    @apply absolute inset-0 bg-black bg-opacity-40;
+  }
+
+  .clock {
+    @apply bg-transparent text-white text-shadow;
+  }
+  
+
+  #calendar {
+    color: var(--foreground);
+    @apply bg-transparent font-normal font-light text-sm;
+  
+    th,
+    tr {
+      @apply font-light uppercase text-shadow;
+      letter-spacing: 0.09rem;
+    }
+  
+    tr {
+      th {
+        @apply p-2.5 pt-4 text-center;
+      }
+      td {
+        @apply text-center font-light p-2.5 border-t border-white border-opacity-40 text-shadow;
+      }
+  
+      &:last-child {
+        td {
+          @apply border-b-0;
+        }
+      }
+    }
+  }
+}
+
+/* MAIN CSS */
+:root {
+  --background: #2c2c54;
+  --foreground: #fff;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  @apply w-screen h-screen bg-transparent m-0 p-0 relative z-0;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+.header {
+   @apply w-full block text-white z-0 p-0 m-0;
+
+   .topbar {
+      @apply w-full flex flex-row flex-wrap justify-between items-center text-white p-2;
+
+      .left-menu {
+        @apply flex flex-row flex-wrap justify-between items-center gap-3;
+      }
+
+      .right-menu {
+        
+        #login-form {
+          @apply flex flex-row flex-wrap justify-between items-center gap-3;
+
+          &.logged-out {
+            @apply border border-white p-0;
+           } 
+
+          input {
+            @apply bg-transparent text-white border-l border-white p-2 text-sm;
+
+            &::placeholder {
+              @apply text-white opacity-80 font-light italic;
+            }
+          }
+
+          .login {
+            @apply bg-transparent text-white border-l border-white p-2 font-light bg-white bg-opacity-20 uppercase text-sm;
+          }
+
+          .logout {
+            @apply border-l-0;
+          }
+        }
+      }
+    }
+
+  #calendar {
+    @apply relative float-right mt-10 mb-10 mr-10;
+    
+    svg {
+      @apply font-light text-white border border-white border-opacity-40 rounded-full p-0.5;
+
+      &:nth-child(1) {
+        @apply absolute left-2;
+      }
+
+      &:nth-child(2) {
+        @apply absolute right-2;
+      }
+    }
+
+    tr {
+      td {
+        @apply m-7;
+      }
+    }
+
+    .month-name {
+      @apply text-base;
+    }
+    
+    .current-day {
+      span {
+        @apply bg-white bg-opacity-20 p-2;
+      }
+    }
   }
+}
+
+.main {
+  z-index: 0;
+  @apply absolute top-0 left-0 h-screen w-screen;
+
+  .post-list {
+      @apply mt-20 flex flex-col items-center justify-center;
+
+      ul {
+        @apply w-3/6 flex flex-col items-start justify-center gap-5 mt-5;
+      }
+  }
+}
+
+.footer {
+  @apply absolute bottom-0 left-0 right-0 justify-between items-center text-white z-0;
 }

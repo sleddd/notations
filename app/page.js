@@ -1,16 +1,9 @@
 'use client';
-import { LoginForm } from '../components/LoginForm';
-import { useAuth } from '../components/AuthProvider';
-import Link from 'next/link';
+import { useAuth } from '@/components/auth/AuthProvider';
 
 export default function Home() {
-  const { user  } = useAuth();
-  //console.log( user );
+  const { user } = useAuth();
   return (
-    <main>
-      <h1>Welcome to My App</h1>
-      <LoginForm />
-      <Link href="/test">Test</Link>
-    </main>
+    <></>
   );
 }
