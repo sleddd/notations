@@ -25,10 +25,17 @@ export async function POST() {
     // Delete refreshToken cookie on server side.
     response.cookies.set('refreshToken', '', {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
+      secure: true,
       sameSite: 'strict',
       maxAge: 0,
     });
+    response.cookies.set('wp-settings-time-1', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 0,
+    });
+
     return response;
   } catch (error) {
     console.log( error );

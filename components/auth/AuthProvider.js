@@ -1,9 +1,10 @@
 'use client';
 // Client side provider for authentification.
 import { createContext, useContext, useState, useEffect } from 'react';
-import { login, logout, refreshAccessToken, getToken, shouldRefreshToken } from '@/lib/auth';
+import { login, logout, refreshAccessToken, getToken, shouldRefreshToken, clearAppCache } from '@/lib/auth';
 import { ApolloProvider } from '@apollo/client';
 import { client } from '@/lib/apollo-client';
+
 
 const AuthContext = createContext();
 
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     },
-    logout: () => {
+    logout: async () => {
       logout();
       setUser(null);
       setLoading(false);

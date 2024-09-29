@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { client } from '@/lib/apollo-client';
 import { gql, useQuery } from '@apollo/client';
 import { notFound } from 'next/router';
+import { PostList } from '@/components/postList/PostList';
 
 const GET_POST_BY_DAY = gql`query getPostsByDay($year: Int = 2024, $month: Int = 9, $day: Int = 27) {
   posts(
@@ -12,6 +13,7 @@ const GET_POST_BY_DAY = gql`query getPostsByDay($year: Int = 2024, $month: Int =
     edges {
       node {
         id
+        postId
         title
       }
     }
@@ -24,32 +26,25 @@ export default function CalendarDay({ params }) {
     const year = parts[parts.length - 3];
     const month = parts[parts.length - 2];
     const day = parts[parts.length - 1];
-    const { data, loading, error } = useQuery(GET_POST_BY_DAY, {
-        variables: { year: parseInt(year), month: parseInt(month), day: parseInt(day) }
+
+    const { data, loading, error, refetch } = useQuery(GET_POST_BY_DAY, {
+        variables: { year: parseInt(year), month: parseInt(month), day: parseInt(day) },
+        fetchPolicy: "no-cache"
     }, { client });
 
-    // Validate the date
     const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
     if (isNaN(date.getTime())) {
-        notFound()
+        notFound();
     }
 
     return (
         <AuthWrapper>
-            <div className="post-list">
-                {loading && !data?.posts?.length ? (
-                    <p>{date.toDateString()} Loading...</p>
-                ) : (
-                    <>
-                        <p>{date.toDateString()}</p>
-                        <ul>
-                            {data?.posts?.edges.map(({ node }) => (
-                                <li key={node.id}>{node.title}</li>
-                            ))}
-                        </ul>
-                    </>
-                )}
-            </div>
+            <PostList 
+                postData={data?.posts?.edges} 
+                loading={loading} 
+                date={date}
+                refetchPosts={refetch}
+             />
         </AuthWrapper>
     )
 }

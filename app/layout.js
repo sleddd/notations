@@ -15,12 +15,36 @@ export const metadata = {
   description: "A short form journaling app powered by Next.js and WordPress.",
 };
 
+const backgrounds = [
+  { name: "one", url: "/assets/background-one.jpg", attribution: 'Photo by <a href="https://unsplash.com/@mehrab_sium?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Mehrab Sium</a> on <a href="https://unsplash.com/photos/a-table-and-chair-in-a-field-of-grass-a7O0Tsd8dE8?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>'
+  },
+  {name: "two", url: "/assets/background-two.jpg", attribution: 'Photo by <a href="https://unsplash.com/@kace">Kace Rodriguez</a> on <a href="https://unsplash.com/photos/river-overflow-in-between-rock-formation-p3OzJuT_Dks">Unsplash</a>'},
+  {name: "three", url: "/assets/background-three.jpg", attribution: 'Photo by <a href="https://unsplash.com/@grantritchie">Grant Richie</a> on <a href="https://unsplash.com/photos/aerial-view-of-grass-mountains-x1w_Q78xNEY">Unsplash</a>'},
+  {name: "four", url: "/assets/background-four.jpg", attribution: 'Photo by <a href="https://unsplash.com/@therawhunter">Massimiliano Morosinotto</a> on <a href="https://unsplash.com/photos/gray-desert-front-of-sunlight-MljwsnGwdOY">Unsplash</a>'},
+  {name: "five", url: "/assets/background-five.jpg", attribution: 'Photo by <a href="https://unsplash.com/@daria_kraplak">Daria Kraplak</a> on <a href="https://unsplash.com/photos/black-typewriter-d34DtRp1bqo">Unsplash</a>'},
+  {name: "six", url: "/assets/background-six.jpg", attribution: 'Photo by <a href="https://unsplash.com/@barkernotbaker">James Barker</a> on <a href="https://unsplash.com/photos/brown-wooden-shelf-with-assorted-books-RKK_nvoOJ6Yo">Unsplash</a>'},
+  {name: "seven", url: "/assets/background-seven.jpg", attribution: 'Photo by <a href="https://unsplash.com/@lucamicheli">Luca Micheli</a> on <a href="https://unsplash.com/photos/photo-of-mountain-ruWkmt3nU58">Unsplash</a>'},
+  {name: "eight", url: "/assets/background-eight.jpg", attribution: 'Photo by <a href="https://unsplash.com/@claudiotesta">Claudio Testa</a> on <a href="https://unsplash.com/photos/green-hills-with-forest-under-cloudy-sky-during-daytime--SO3JtE3gZo">Unsplash</a>'},
+  {name: "nine", url: "/assets/background-nine.jpg", attribution: 'Photo by <a href="https://unsplash.com/@dnevozhai?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Denys Nevozhai</a> on <a href="https://unsplash.com/photos/streets-during-nighttime-D68ADLeMh5Q?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>'},
+  {name: "ten", url: "/assets/background-ten.jpg", attribution: 'Photo by <a href="https://unsplash.com/@sincerelymedia?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Sincerely Media</a> on <a href="https://unsplash.com/photos/macbook-beside-teacup-with-latte-zw8t5aMmJQQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>'},
+  {name: "eleven", url: "/assets/background-eleven.jpg", attribution: 'Photo by <a href="https://unsplash.com/@itfeelslikefilm?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Janko Ferlič</a> on <a href="https://unsplash.com/photos/shallow-depth-of-field-photo-of-white-teacup-on-saucer-jmhwim1FUr4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>'},
+
+
+]
+
 export default function RootLayout({ children }) {
   return (
     <AuthProvider>
       <html lang="en" className={`${montserrat.variable} font-sans`}>
+        <head>
+          <title>{metadata.title}</title>
+          <meta name="description" content={metadata.description} />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta httpEquiv="Pragma" content="no-cache"/>
+          <meta httpEquiv="Expires" content="-1"/>
+        </head>
         <body>
-          <FullWidthBackground className="bg-two" />
+          <FullWidthBackground className="bg-eleven" />
           <main className="main">
             <Header />
               {children}
