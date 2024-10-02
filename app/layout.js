@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
       <ApolloProviderWrapper>
         <html lang="en" className={`${montserrat.variable} font-sans`}>
           <body>
-            <FullWidthBackground className="bg-eleven" />
+            <FullWidthBackground className="bg-seven" />
             <main className="main">
               <Header />
                 {children}

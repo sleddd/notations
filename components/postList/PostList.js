@@ -44,13 +44,17 @@ export const PostList = ({
         refetchPosts();
     }
 
+    const addNewBlankLink = async () => {}
+
+    const addNewBlankImage = async () => {}
+
     return (
         <div className="post-list">
             {loading && posts ? (
-                <p>{date.toDateString()} Loading...</p>
+                <p className="post-list__date">{date.toDateString()} Loading...</p>
             ) : (
                 <>
-                    <p>{date.toDateString()}</p>
+                    <p className="post-list__date">{date.toDateString()}</p>
                     <ul className="post-list__items">
                         {!loading && posts?.length <= 0 && (
                             <li className="not-found">No posts found.</li>
@@ -64,7 +68,12 @@ export const PostList = ({
                                 refetchPosts={refetchPosts}
                             />
                         ))}
-                        <button onClick={addNewBlankPost}>+ New Item</button>
+                        <div class="post-list__items__new">
+                            <span>New:</span>
+                            <button onClick={addNewBlankPost}>+ Item</button>
+                            <button onClick={addNewBlankImage}>+ Image</button>
+                            <button onClick={addNewBlankLink}>+ Link</button>
+                        </div>
                     </ul>
                 </>
             )}

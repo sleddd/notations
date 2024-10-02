@@ -39,7 +39,6 @@
       background: radial-gradient(circle, #e3fefc 30%, transparent 70%);
       border-radius: 50%;
       animation: rise 2s ease-out forwards;
-      opacity: 0.5;
     }
   }
 
@@ -87,7 +86,9 @@
 /* MAIN CSS */
 :root {
   --background: #2c2c54;
-  --foreground: #fff;
+  --foreground: #e3fefc ;
+  --brightWhite: #e7efeecc;
+  --fadedWhite: #e7efee;
 }
 
 body {
@@ -173,15 +174,17 @@ body {
   @apply absolute top-0 left-0 h-screen w-screen;
 
   .post-list {
+
       @apply mt-20 flex flex-col items-center justify-center;
 
       ul.post-list__items {
-        @apply w-3/6 flex flex-col items-start justify-center gap-5 mt-5 border border-white border-opacity-40  p-3;
+        @apply w-3/6 flex flex-col items-start justify-center gap-5 mt-5 p-3 shadow-xl border border-white border-opacity-30 pt-10;
 
         li.post-list__item {
-          @apply relative w-full bg-white bg-opacity-60 p-5 text-black;
+          @apply relative w-full bg-[--brightWhite] p-5 text-black rounded-md; 
+
           &.not-found {
-            @apply bg-transparent text-white text-center;
+            @apply bg-transparent text-[--fadedwhite] text-center;
           }
           textarea {
             @apply bg-transparent text-[#555555] p-2 w-11/12;
@@ -211,6 +214,26 @@ body {
             ul {
               display: none;
             }
+          }
+        }
+        
+      }
+
+      p.post-list__date {
+        @apply uppercase tracking-wide text-shadow;
+      }
+
+      div.post-list__items__new {
+        @apply flex justify-between gap-3 pl-2 pr-2 text-[#e3fefc] text-shadow;
+
+        span {
+          @apply text-[--fadedWhite] pr-2 uppercase text-shadow tracking-wide;
+        }
+
+        button {
+          @apply tracking-wide;
+          &:hover {
+            @apply font-extrabold text-[#ffffff];
           }
         }
       }
