@@ -1,11 +1,10 @@
-Re-vamp of an old react-based headless WordPress journaling application to work with Next.js 14, Next-Auth.js 4, and WP GraphQL. It is a completely separate application that relies on WordPress for the pre-built WP GraphQL API only to make building and maintaing the backend faster. 
+Re-vamp of an old React-based headless WordPress application to work with Next.js 14, NextAuth 4, and WP GraphQL. It is a completely separate application that relies on WordPress for the pre-built WP GraphQL API only making building and maintaing the backend easier. 
 
-## Work In Progress
-
-[Next.js 14](https://nextjs.org)
-[Next-Auth.js 4](https://next-auth.js.org)
-[React 18]((https://react.dev/versions)
-[WP GraphQL](https://www.wpgraphql.com)
+## Still a Work In Progress
+![Next 14](https://img.shields.io/badge/Next%2014-black)
+![NextAuth 4](https://img.shields.io/badge/NextAuth%204-purple)
+![React 18](https://img.shields.io/badge/React%2018-teal)
+![WP GraphQL](https://img.shields.io/badge/WP%20GraphQL-blue)
 
 ---
 
@@ -13,8 +12,8 @@ Re-vamp of an old react-based headless WordPress journaling application to work 
 
 First, setup your env.local with the following values: 
 
-NOTATIONS_GQL_URL={Your WP GraphQL endpoint}
-NOTATIONS_SECRET={Used for Next JWT signing - you can generate it at command line by running "openssl rand -base64 32"}
+NOTATIONS_GQL_URL={Your WP GraphQL endpoint}\
+NOTATIONS_SECRET={Used for Next JWT signing - you can generate it at command line by running "openssl rand -base64 32"}\
 
 Second, run the development server:
 
