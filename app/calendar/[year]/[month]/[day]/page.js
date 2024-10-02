@@ -1,24 +1,10 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { GET_POST_BY_DAY } from '@/graphql/queries';
 import { notFound } from 'next/router';
 import { PostList } from '@/components/postList/PostList';
 import { useRouter } from "next/navigation";
-import { useSession } from 'next-auth/react'; 
-
-const GET_POST_BY_DAY = gql`query getPostsByDay($year: Int = 2024, $month: Int = 9, $day: Int = 27) {
-  posts(
-    where: {status: PRIVATE, dateQuery: {year: $year, month: $month, day: $day}}
-  ) {
-    edges {
-      node {
-        id
-        postId
-        title
-      }
-    }
-  }
-}`;
 
 export const CalendarDay = ({ params }) => {
   const pathName = usePathname();
@@ -48,6 +34,11 @@ export const CalendarDay = ({ params }) => {
       loading={loading}
       date={date}
       refetchPosts={refetch}
+      pageDate={{
+        year,
+        month,
+        day
+      }}
     />
   )
 }

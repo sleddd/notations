@@ -1,45 +1,16 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useMutation } from '@apollo/client';
+import { DELETE_POST } from '@/graphql/mutations';
 export const PostListOptions = ({
     activePostId,
     setActivePostId,
-    activePostContent,
-    setActivePostContent,
-    isEditing,
     setIsEditing,
-    showPostOptions,
     setShowPostOptions,
-    refetchPosts,
+    refetchPosts
 }) => {
-
-
-    console.log( isEditing );
     const [selectedCategories, setSelectedCategories] = useState([]);
-
-    useEffect(() => {
-        if ( 'saved' == isEditing) {
-            console.log(activePostId);
-            console.log( activePostContent );
-            refetchPosts();
-            setIsEditing(false);
-            setActivePostId(null);
-            setActivePostContent(null); 
-            setShowPostOptions(false);
-        }
-        if ('deleting' == isEditing) {
-            console.log(activePostId);
-            refetchPosts();
-            setIsEditing(false);
-            setActivePostId(null);
-            setShowPostOptions(false);
-        }
-        if ('categorizing' == isEditing) {
-            console.log(activePostId);
-            setIsEditing(false);
-            setActivePostId(null);
-            setShowPostOptions(false);
-        }
-    }, [isEditing, activePostId, activePostContent, showPostOptions]);
+    const [deletePost] = useMutation(DELETE_POST);
 
     const categories = [
         {
@@ -77,12 +48,26 @@ export const PostListOptions = ({
         setShowPostOptions(false);
     }
 
-    const handleDelete = () => {
-        setIsEditing('deleting');
+    const handleDelete = async () => {
+        console.log(activePostId);
+        const test = await deletePost({
+            variables: {
+                input: {
+                    id: activePostId
+                }
+            }
+        });
+        refetchPosts();
+        setIsEditing(false);
+        setActivePostId(null);
+        setShowPostOptions(false);
     }
 
     const handleCategorySelect = () => {
-        setIsEditing('categorizing');
+        console.log(activePostId);
+        setIsEditing(false);
+        setActivePostId(null);
+        setShowPostOptions(false);
     }
 
     return (

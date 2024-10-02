@@ -183,31 +183,23 @@ body {
           &.not-found {
             @apply bg-transparent text-white text-center;
           }
-          input {
-            @apply bg-transparent text-[#555555] p-2 w-full;
+          textarea {
+            @apply bg-transparent text-[#555555] p-2 w-11/12;
           }
         }
 
         li .post-list__item__options-button {
-          @apply absolute top-0 right-0 p-2 text-3xl invisible;
+          @apply absolute top-0 right-0 p-2 text-3xl;
           color: #5f5f5f;
-        }
-
-        li {
-          &:hover {
-            .post-list__item__options-button {
-              @apply visible;
-            }
-          }
         }
 
         li .post-list__item__options-menu {
           @apply absolute rounded-sm bg-[#ededed];
           top: -20px;
-          right: 30px;
+          right: -230px;
           width: 200px;
           overflow: hidden;
-          animation: slide-down 0.5s ease-in-out;
+          animation: slide-down 0.2s ease-in-out;
 
           li {
             @apply text-sm pl-3 pr-3 pt-2 pb-2;

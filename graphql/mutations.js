@@ -28,3 +28,35 @@ mutation refreshJwtAuthToken($token: String!) {
         authToken
     }
 }`;
+
+
+export const CREATE_BLANK_POST = gql`
+    mutation CreateBlankPost($input: CreatePostInput!) {
+    createPost(input: $input) {
+        post {
+        title
+        content
+        date
+        }
+    }
+}`;
+
+export const DELETE_POST = gql`
+  mutation DeletePost($input: DeletePostInput!) {
+    deletePost(input: $input) {
+      deletedId
+    }
+  }
+`;
+
+export const UPDATE_POST = gql`
+  mutation UpdatePost($input: UpdatePostInput!) {
+    updatePost(input: $input) {
+      post {
+        id
+        title
+        content
+      }
+    }
+  }
+`;
