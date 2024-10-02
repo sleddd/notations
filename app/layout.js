@@ -1,5 +1,6 @@
 import { Montserrat } from 'next/font/google';
-import { AuthProvider } from '@/components/auth/AuthProvider';
+import SessionProvider from '@/components/auth/SessionProvider';
+import ApolloProviderWrapper from '@/lib/apollo-client';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FullWidthBackground } from '@/components/layout/FullWidthBackground';
@@ -34,24 +35,26 @@ const backgrounds = [
 
 export default function RootLayout({ children }) {
   return (
-    <AuthProvider>
-      <html lang="en" className={`${montserrat.variable} font-sans`}>
-        <head>
-          <title>{metadata.title}</title>
-          <meta name="description" content={metadata.description} />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta httpEquiv="Pragma" content="no-cache"/>
-          <meta httpEquiv="Expires" content="-1"/>
-        </head>
-        <body>
-          <FullWidthBackground className="bg-eleven" />
-          <main className="main">
-            <Header />
-              {children}
-            <Footer />
-          </main>
-        </body>
-      </html>
-    </AuthProvider>
+    <SessionProvider>
+      <ApolloProviderWrapper>
+        <html lang="en" className={`${montserrat.variable} font-sans`}>
+          <head>
+            <title>{metadata.title}</title>
+            <meta name="description" content={metadata.description} />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta httpEquiv="Pragma" content="no-cache"/>
+            <meta httpEquiv="Expires" content="-1"/>
+          </head>
+          <body>
+            <FullWidthBackground className="bg-eleven" />
+            <main className="main">
+              <Header />
+                {children}
+              <Footer />
+            </main>
+          </body>
+        </html>
+      </ApolloProviderWrapper>
+    </SessionProvider>
   );
 }

@@ -4,12 +4,13 @@ import { Clock } from '@/components/clock';
 import { Calendar } from '@/components/calendar/Calendar';
 import RoofingIcon from '@mui/icons-material/Roofing';
 import { usePathname } from 'next/navigation';
-import { useAuth } from '@/components/auth/AuthProvider';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 export const Header = () => {
     const pathName = usePathname();
-    const { user } = useAuth();
+    const { data: user } = useSession();
+
     return (
         <header className="header">
             <div className="topbar">
