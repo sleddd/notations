@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { DELETE_POST } from '@/graphql/mutations';
 export const PostListOptions = ({
@@ -10,7 +10,7 @@ export const PostListOptions = ({
     refetchPosts
 }) => {
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [deletePost] = useMutation(DELETE_POST);
+    const [deletePost]                                = useMutation(DELETE_POST);
 
     const categories = [
         {
@@ -49,8 +49,7 @@ export const PostListOptions = ({
     }
 
     const handleDelete = async () => {
-        console.log(activePostId);
-        const test = await deletePost({
+        deletePost({
             variables: {
                 input: {
                     id: activePostId
@@ -64,7 +63,6 @@ export const PostListOptions = ({
     }
 
     const handleCategorySelect = () => {
-        console.log(activePostId);
         setIsEditing(false);
         setActivePostId(null);
         setShowPostOptions(false);

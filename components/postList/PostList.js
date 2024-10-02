@@ -3,25 +3,24 @@ import { useState, useEffect } from 'react';
 import { PostListItem } from './PostListItem';
 import { useMutation } from '@apollo/client';
 import { CREATE_BLANK_POST } from '@/graphql/mutations';
-import { formatDateToWP  } from '@/lib/calendar';
+import { formatDateToWP } from '@/lib/calendar';
 
 export const PostList = ({
     postData,
     loading,
     date,
     refetchPosts,
-    pageDate
 }) => {
     const [postInputValues, setPostInputValues] = useState([]);
-    const [posts, setPosts] = useState([]);
-    const [createBlankPost] = useMutation(CREATE_BLANK_POST);
+    const [posts, setPosts]                     = useState([]);
+    const [createBlankPost]                     = useMutation(CREATE_BLANK_POST);
 
     useEffect(() => {
         if (Array.isArray(postData)) {
             setPosts(postData);
             const defaultPostInputValues = postData.map(({ node }) => {
                 let content = node.content.length == ' ' ? 'Click to write here...' : node.content;
-                if ( content ) {
+                if (content) {
                     content = content.replace(/<[^>]*>/g, '');
                 }
                 return { id: node.postId, value: content };
@@ -31,17 +30,12 @@ export const PostList = ({
     }, [postData]);
 
     const addNewBlankPost = async () => {
-        // Create a post date using year month day from the pageDate.
-        let postDate = new Date(pageDate.year, pageDate.month - 1, pageDate.day);
-        // Convert that to WP Format.
-        postDate = formatDateToWP(postDate);
-
         // Save blank post with the post date as publish date and title.
-        const test =  await createBlankPost({
+        const test = await createBlankPost({
             variables: {
                 input: {
-                    date: postDate,
-                    title: postDate,
+                    date: formatDateToWP(date),
+                    title: formatDateToWP(date),
                     content: " ",
                     status: "PRIVATE"
                 }
