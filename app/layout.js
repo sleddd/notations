@@ -38,13 +38,6 @@ export default function RootLayout({ children }) {
     <SessionProvider>
       <ApolloProviderWrapper>
         <html lang="en" className={`${montserrat.variable} font-sans`}>
-          <head>
-            <title>{metadata.title}</title>
-            <meta name="description" content={metadata.description} />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <meta httpEquiv="Pragma" content="no-cache"/>
-            <meta httpEquiv="Expires" content="-1"/>
-          </head>
           <body>
             <FullWidthBackground className="bg-eleven" />
             <main className="main">
