@@ -4,12 +4,18 @@ import { Clock } from '@/components/clock';
 import { Calendar } from '@/components/calendar/Calendar';
 import RoofingIcon from '@mui/icons-material/Roofing';
 import { usePathname } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { GET_USER } from '@/graphql/queries';
+import { useQuery } from '@apollo/client';
+import { getTimeOfDay } from '@/lib/calendar';
+
+
 
 export const Header = () => {
     const pathName = usePathname();
-    const { data: user } = useSession();
+    const { data } = useQuery(GET_USER);
+    const user = data?.viewer;
+    const avatarUrl = user?.avatar?.url;
 
     return (
         <header className="header">
@@ -20,11 +26,7 @@ export const Header = () => {
                 </div>
                 <div className="right-menu">
                     <LoginForm />
-                    <div className="hamburger">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+                    {user ? <img src={avatarUrl} alt={user?.name} className="avatar" /> : ''}
                 </div>
             </div>
             {'/' == pathName && user ? <Calendar /> : ''}

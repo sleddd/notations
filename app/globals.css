@@ -3,6 +3,17 @@
 @tailwind utilities;
 
 
+:root {
+  --background: #2c2c54;
+  --foreground: #e3fefc ;
+  --brightWhite: #ffffff95;
+  --text-color: #e7efee;
+  --secondary-text-color: #e7efee;
+  --icon-color:#363c3c;
+  --icon-hover-color: #ffffff;
+  --icon-active-color: #ffffff;
+}
+
 @layer utilities {
 
   .text-balance {
@@ -12,7 +23,6 @@
   .text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.21);
   }
-
 }
 
 @layer components {
@@ -83,14 +93,6 @@
   }
 }
 
-/* MAIN CSS */
-:root {
-  --background: #2c2c54;
-  --foreground: #e3fefc ;
-  --brightWhite: #e7efeecc;
-  --fadedWhite: #e7efee;
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
@@ -109,9 +111,17 @@ body {
       }
 
       .right-menu {
+        @apply flex flex-row flex-wrap justify-between items-center gap-3;
+
+        .avatar {
+          border-radius: 100%;
+          width: 30px;
+          height: 30px;
+          @apply mt-1 border-2 border-white border-opacity-40;
+        }
         
         #login-form {
-          @apply flex flex-row flex-wrap justify-between items-center gap-3;
+          @apply flex flex-row flex-wrap justify-between items-center gap-3 mt-4;
 
           &.logged-out {
             @apply border border-white p-0;
@@ -178,22 +188,22 @@ body {
       @apply mt-20 flex flex-col items-center justify-center;
 
       ul.post-list__items {
-        @apply w-3/6 flex flex-col items-start justify-center gap-5 mt-5 p-3 shadow-xl border border-white border-opacity-30 pt-10 pb-7;
+        @apply w-5/6 md:w-3/6 flex flex-col items-start justify-center gap-5 mr-10 md:mr-0 mt-5 p-3 shadow-xl border border-white border-opacity-30 pt-10 pb-7;
         box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
 
         li.post-list__item {
           z-index: 0;
-          @apply relative w-full bg-[--brightWhite] bg-opacity-70 p-5 text-black rounded-md; 
+          @apply relative w-full bg-[--brightWhite] bg-opacity-70 p-5 text-black rounded-sm; 
 
           &.not-found {
-            @apply bg-transparent text-[--fadedwhite] text-center;
+            @apply bg-transparent text-[--text-color] text-center;
           }
           textarea {
             @apply bg-transparent text-[#555555] p-2 w-11/12;
           }
 
           ul.post-list__item__signifiers {
-            @apply flex justify-end p-2 absolute text-black text-opacity-60 bg-white bg-opacity-20;
+            @apply flex justify-end p-2 absolute text-[--icon-active-color] text-opacity-60 bg-white bg-opacity-20;
             border-radius: 6px;
             bottom: 10px;
             right: -55px;
@@ -211,14 +221,17 @@ body {
                 left: 45px;
                 z-index: -2;
                 width: 250px;
-                @apply flex flex-row flex-wrap absolute p-2 text-black text-opacity-60 gap-2 rounded-md;
+                @apply flex flex-row flex-wrap absolute p-2 text-[--icon-color]  gap-2 rounded-md;
                 animation: slide-signifiers-in 0.5s ease-in-out;
 
                 li {
-                  @apply text-shadow;
+                  @apply text-[--icon-active-color] p-1;
                   transition: all 0.2s ease-in-out;
+                  border: 1px solid transparent;
+                  
                   &:hover {
                     @apply text-white;
+                    border: 1px solid var(--text-color);
                   }
                 }
               }
@@ -251,7 +264,7 @@ body {
             }
 
             &:hover {
-              @apply bg-gray-500 text-[--brightWhite];
+              @apply bg-gray-500 text-white;
             }
 
             ul {
@@ -263,29 +276,50 @@ body {
       }
 
       p.post-list__date {
-        @apply uppercase tracking-wide text-shadow;
+        @apply uppercase tracking-wide text-shadow text-white;
       }
 
       div.post-list__items__new {
-        @apply w-3/6 flex gap-3 pl-2 pr-2 mt-5 text-[#ededed] font-light italic;
-
-        span {
-          @apply text-white pr-2 uppercase tracking-wide text-lg;
-        }
+        @apply w-5/6 md:w-3/6 flex justify-center pl-0 pr-0 pt-4 pb-0 mt-4 mb-20 text-white font-light uppercase text-base bg-white bg-opacity-0 rounded-sm;
 
         button {
-          @apply tracking-wide italic pb-2;
-          &:after {
-            display: block;
-            content: " ";
-            @apply border-b opacity-50;
-            transition: opacity .2s ease-in-out;
+          @apply italic;
 
+          &::after {
+            display: block;
+            content: '';
+            width: 0;
+            margin-left: 20px;
+            padding-top: 0.35rem;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease-in-out;
           }
+
           &:hover {
-            @apply text-[#ffffff];
             &:after {
-              @apply opacity-100;
+              width: calc( 100% - 20px );
+              border-color: var(--text-color);
+            }
+          }
+
+          &::before {
+            content: '/';
+            padding: 0 10px;
+          }
+
+          &:first-child {
+            margin-left: -15px;
+            &:hover {
+              &:after {
+                width: 100%;
+                margin-left: 0;
+              }
+            }
+            &:before {
+              padding: 0px;
+            }
+            &::before {
+              content: '';
             }
           }
         }
@@ -322,5 +356,5 @@ body {
 }
 
 .footer {
-  @apply absolute bottom-0 left-0 right-0 justify-between items-center text-white z-0;
+  @apply fixed bottom-0 left-0 right-0 justify-between items-center text-[--text-color] z-0;
 }

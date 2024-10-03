@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getTimeOfDay } from '@/lib/calendar';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_USER } from '@/graphql/queries';
@@ -11,7 +10,6 @@ export const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [signInError, setSignInError] = useState(null);
-  const timeOfDay = getTimeOfDay();
   const { data: session, status } = useSession();
   const { data, refetch } = useQuery(GET_USER, {
     skip: !session,
@@ -77,8 +75,7 @@ export const LoginForm = () => {
           </>
         ) : (
           <>
-            <p className="italic font-light">Good {timeOfDay} {data?.viewer?.name}...</p>
-            | <button className="logout text-xs uppercase opacity-80" type="button" onClick={handleLogout}>Logout</button>
+            <button className="logout text-xs uppercase opacity-80" type="button" onClick={handleLogout}>Logout</button>
           </>
         )}
       </form>

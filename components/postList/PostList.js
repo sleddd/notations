@@ -75,10 +75,9 @@ export const PostList = ({
                         ))}
                     </ul>
                     <div className="post-list__items__new">
-                        <span>New:</span>
-                        <button onClick={addNewBlankPost}>Text</button>
-                        <button onClick={addNewBlankImage}>Image</button>
-                        <button onClick={addNewBlankLink}>Link</button>
+                        <button onClick={addNewBlankPost}>Add Text</button>
+                        <button onClick={addNewBlankImage}>Add Image</button>
+                        <button onClick={addNewBlankLink}>Add Link </button>
                     </div>
                 </>
             )}
