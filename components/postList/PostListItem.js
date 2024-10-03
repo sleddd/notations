@@ -115,7 +115,7 @@ export const PostListItem = ({
     }
 
     return (<li className="post-list__item" key={post.id}>
-        <ul className={`post-list__item__signifiers ${postFormat}`}>
+        <ul className={`post-list__item__signifiers`}>
             <li
                 className={`post-list__item__signifiers--active ${signifierClass}`}
                 onClick={() => { 
