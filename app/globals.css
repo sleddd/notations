@@ -6,7 +6,7 @@
 :root {
   --background: #2c2c54;
   --foreground: #e3fefc ;
-  --brightWhite: #ffffff95;
+  --brightWhite: #ffffff;
   --text-color: #e7efee;
   --secondary-text-color: #e7efee;
   --icon-color:#363c3c;
@@ -193,7 +193,8 @@ body {
 
         li.post-list__item {
           z-index: 0;
-          @apply relative w-full bg-[--brightWhite] bg-opacity-70 p-5 text-black rounded-sm; 
+          border-radius: 4px;
+          @apply relative w-full bg-[--brightWhite] bg-opacity-70 p-5 text-black; 
 
           &.not-found {
             @apply bg-transparent text-[--text-color] text-center;
@@ -278,52 +279,26 @@ body {
       p.post-list__date {
         @apply uppercase tracking-wide text-shadow text-white;
       }
+  }
 
-      div.post-list__items__new {
-        @apply w-5/6 md:w-3/6 flex justify-center pl-0 pr-0 pt-4 pb-0 mt-4 mb-20 text-white font-light uppercase text-base bg-white bg-opacity-0 rounded-sm;
-
-        button {
-          @apply italic;
-
-          &::after {
-            display: block;
-            content: '';
-            width: 0;
-            margin-left: 20px;
-            padding-top: 0.35rem;
-            border-bottom: 1px solid transparent;
-            transition: all 0.2s ease-in-out;
-          }
-
-          &:hover {
-            &:after {
-              width: calc( 100% - 20px );
-              border-color: var(--text-color);
-            }
-          }
-
-          &::before {
-            content: '/';
-            padding: 0 10px;
-          }
-
-          &:first-child {
-            margin-left: -15px;
-            &:hover {
-              &:after {
-                width: 100%;
-                margin-left: 0;
-              }
-            }
-            &:before {
-              padding: 0px;
-            }
-            &::before {
-              content: '';
-            }
-          }
-        }
+  div.post-list__actions {
+    @apply m-0 p-0 w-full text-center block fixed bottom-0 right-0;
+    z-index: 999;
+    
+    button {
+      @apply relative bottom-0 ml-1 mr-1.5 border border-b-0 border-l-0 border-opacity-0 text-white text-shadow bg-gray-500 bg-opacity-30 p-2 pl-3 pr-3 shadow-2xl italic rounded-md;
+      bottom: -5px;
+      padding-bottom: 10px;
+      border-color: #ffffff60;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.5);
+      transition: all 0.2s ease-in-out;
+      
+      &:hover {
+        @apply bottom-0 text-white font-medium;
       }
+    }
   }
 }
 

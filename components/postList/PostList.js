@@ -40,7 +40,7 @@ export const PostList = ({
                     postFormats: {
                         append: false,
                         nodes: [
-                          { name: "standard" }
+                            { name: "standard" }
                         ]
                     }
                 }
@@ -54,32 +54,35 @@ export const PostList = ({
     const addNewBlankImage = async () => { }
 
     return (
-        <div className="post-list">
-            {loading && posts ? (
-                <p className="post-list__date">{date.toDateString()} Loading...</p>
-            ) : (
-                <>
-                    <p className="post-list__date">{date.toDateString()}</p>
-                    <ul className="post-list__items">
-                        {!loading && posts?.length <= 0 && (
-                            <li className="not-found">No posts found.</li>
-                        )}
-                        {posts.map(({ node }) => (
-                            <PostListItem
-                                key={node.postId}
-                                post={node}
-                                postInputValues={postInputValues}
-                                setPostInputValues={setPostInputValues}
-                                refetchPosts={refetchPosts}
-                            />
-                        ))}
-                    </ul>
-                    <div className="post-list__items__new">
-                        <button onClick={addNewBlankPost}>Add Text</button>
-                        <button onClick={addNewBlankImage}>Add Image</button>
-                        <button onClick={addNewBlankLink}>Add Link </button>
-                    </div>
-                </>
-            )}
-        </div>)
+        <>
+            <div className="post-list">
+                {loading && posts ? (
+                    <p className="post-list__date">{date.toDateString()} Loading...</p>
+                ) : (
+                    <>
+                        <p className="post-list__date">{date.toDateString()}</p>
+                        <ul className="post-list__items">
+                            {!loading && posts?.length <= 0 && (
+                                <li className="not-found">No posts found.</li>
+                            )}
+                            {posts.map(({ node }) => (
+                                <PostListItem
+                                    key={node.postId}
+                                    post={node}
+                                    postInputValues={postInputValues}
+                                    setPostInputValues={setPostInputValues}
+                                    refetchPosts={refetchPosts}
+                                />
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </div>
+            <div className="post-list__actions">
+                <button onClick={addNewBlankPost}>Add Text</button>
+                <button onClick={addNewBlankImage}>Add Image</button>
+                <button onClick={addNewBlankLink}>Add Link </button>
+            </div>
+        </>
+    )
 };
