@@ -60,3 +60,14 @@ export const UPDATE_POST = gql`
     }
   }
 `;
+
+export const CREATE_MEDIA_ITEM = gql`
+  mutation CreateMediaItem($file: Upload!, $title: String!) {
+    createMediaItem(input: { file: $file, title: $title, status: PUBLISH }) {
+      mediaItem {
+        id
+        sourceUrl
+      }
+    }
+  }
+`;

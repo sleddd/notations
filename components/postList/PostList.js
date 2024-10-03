@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { PostListItem } from './PostListItem';
+import { PostListItem } from './post-list-item/PostListItem';
 import { useMutation } from '@apollo/client';
 import { CREATE_BLANK_POST } from '@/graphql/mutations';
 import { formatDateToWP } from '@/lib/calendar';

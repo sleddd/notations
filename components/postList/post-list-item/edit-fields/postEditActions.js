@@ -4,15 +4,14 @@ import { useMutation } from '@apollo/client';
 import { DELETE_POST } from '@/graphql/mutations';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
-export const PostListOptions = ({
+export const PostEditActions = ({
     activePostId,
     setActivePostId,
     setIsEditing,
     setShowPostOptions,
     refetchPosts
 }) => {
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [deletePost]                                = useMutation(DELETE_POST);
+    const [deletePost] = useMutation(DELETE_POST);
 
     const handleEdit = () => {
         setIsEditing('editing');
@@ -42,4 +41,4 @@ export const PostListOptions = ({
     );
 }
 
-export default PostListOptions;
+export default PostEditActions;
