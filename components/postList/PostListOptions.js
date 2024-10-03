@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { DELETE_POST } from '@/graphql/mutations';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+
 export const PostListOptions = ({
     activePostId,
     setActivePostId,
@@ -11,37 +13,6 @@ export const PostListOptions = ({
 }) => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [deletePost]                                = useMutation(DELETE_POST);
-
-    const categories = [
-        {
-            name: 'Work',
-            color: 'red'
-        },
-        {
-            name: 'Research',
-            color: 'blue'
-        },
-        {
-            name: 'Health',
-            color: 'green'
-        },
-        {
-            name: 'Idea',
-            color: 'purple'
-        },
-        {
-            name: 'Family',
-            color: 'yellow'
-        },
-        {
-            name: 'Finance',
-            color: 'orange'
-        },
-        {
-            name: 'Other',
-            color: 'gray'
-        }
-    ];
 
     const handleEdit = () => {
         setIsEditing('editing');
@@ -62,22 +33,10 @@ export const PostListOptions = ({
         setShowPostOptions(false);
     }
 
-    const handleCategorySelect = () => {
-        setIsEditing(false);
-        setActivePostId(null);
-        setShowPostOptions(false);
-    }
-
     return (
         <ul className="post-list__item__options-menu">
+            <li className="bookmark"><BookmarkBorderIcon /> Add to Collection</li>
             <li onClick={handleEdit}>Edit</li>
-            <li onClick={handleCategorySelect}>Select Category
-                <ul>
-                    {categories.map(category => (
-                        <li key={category.name} className={category.color}>{category.name}</li>
-                    ))}
-                </ul>
-            </li>
             <li onClick={handleDelete}>Delete</li>
         </ul>
     );

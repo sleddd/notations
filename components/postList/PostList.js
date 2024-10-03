@@ -12,8 +12,8 @@ export const PostList = ({
     refetchPosts,
 }) => {
     const [postInputValues, setPostInputValues] = useState([]);
-    const [posts, setPosts]                     = useState([]);
-    const [createBlankPost]                     = useMutation(CREATE_BLANK_POST);
+    const [posts, setPosts] = useState([]);
+    const [createBlankPost] = useMutation(CREATE_BLANK_POST);
 
     useEffect(() => {
         if (Array.isArray(postData)) {
@@ -30,23 +30,28 @@ export const PostList = ({
     }, [postData]);
 
     const addNewBlankPost = async () => {
-        // Save blank post with the post date as publish date and title.
-        const test = await createBlankPost({
+        await createBlankPost({
             variables: {
                 input: {
                     date: formatDateToWP(date),
                     title: formatDateToWP(date),
                     content: " ",
-                    status: "PRIVATE"
+                    status: "PRIVATE",
+                    postFormats: {
+                        append: false,
+                        nodes: [
+                          { name: "standard" }
+                        ]
+                    }
                 }
             }
         });
-        refetchPosts();
+        await refetchPosts();
     }
 
-    const addNewBlankLink = async () => {}
+    const addNewBlankLink = async () => { }
 
-    const addNewBlankImage = async () => {}
+    const addNewBlankImage = async () => { }
 
     return (
         <div className="post-list">
@@ -68,13 +73,13 @@ export const PostList = ({
                                 refetchPosts={refetchPosts}
                             />
                         ))}
-                        <div class="post-list__items__new">
-                            <span>New:</span>
-                            <button onClick={addNewBlankPost}>+ Item</button>
-                            <button onClick={addNewBlankImage}>+ Image</button>
-                            <button onClick={addNewBlankLink}>+ Link</button>
-                        </div>
                     </ul>
+                    <div className="post-list__items__new">
+                        <span>New:</span>
+                        <button onClick={addNewBlankPost}>Text</button>
+                        <button onClick={addNewBlankImage}>Image</button>
+                        <button onClick={addNewBlankLink}>Link</button>
+                    </div>
                 </>
             )}
         </div>)

@@ -34,9 +34,9 @@ export const CREATE_BLANK_POST = gql`
     mutation CreateBlankPost($input: CreatePostInput!) {
     createPost(input: $input) {
         post {
-        title
-        content
-        date
+          title
+          content
+          date
         }
     }
 }`;

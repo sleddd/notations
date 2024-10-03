@@ -12,7 +12,7 @@
   .text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.21);
   }
-  
+
 }
 
 @layer components {
@@ -178,10 +178,12 @@ body {
       @apply mt-20 flex flex-col items-center justify-center;
 
       ul.post-list__items {
-        @apply w-3/6 flex flex-col items-start justify-center gap-5 mt-5 p-3 shadow-xl border border-white border-opacity-30 pt-10;
+        @apply w-3/6 flex flex-col items-start justify-center gap-5 mt-5 p-3 shadow-xl border border-white border-opacity-30 pt-10 pb-7;
+        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
 
         li.post-list__item {
-          @apply relative w-full bg-[--brightWhite] p-5 text-black rounded-md; 
+          z-index: 0;
+          @apply relative w-full bg-[--brightWhite] bg-opacity-70 p-5 text-black rounded-md; 
 
           &.not-found {
             @apply bg-transparent text-[--fadedwhite] text-center;
@@ -189,8 +191,41 @@ body {
           textarea {
             @apply bg-transparent text-[#555555] p-2 w-11/12;
           }
-        }
 
+          ul.post-list__item__signifiers {
+            @apply flex justify-end p-2 absolute text-black text-opacity-60 bg-white bg-opacity-20;
+            border-radius: 6px;
+            bottom: 10px;
+            right: -55px;
+            position: absolute;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+
+            li {
+              position: relative;
+              padding: 0.10rem;
+              margin: 0;
+              ul {
+                top: -10px;
+                left: 45px;
+                z-index: -2;
+                width: 250px;
+                @apply flex flex-row flex-wrap absolute p-2 text-black text-opacity-60 gap-2 rounded-md;
+                animation: slide-signifiers-in 0.5s ease-in-out;
+
+                li {
+                  @apply text-shadow;
+                  transition: all 0.2s ease-in-out;
+                  &:hover {
+                    @apply text-white;
+                  }
+                }
+              }
+            }
+          }
+        }
+      
         li .post-list__item__options-button {
           @apply absolute top-0 right-0 p-2 text-3xl;
           color: #5f5f5f;
@@ -198,17 +233,25 @@ body {
 
         li .post-list__item__options-menu {
           @apply absolute rounded-sm bg-[#ededed];
-          top: -20px;
-          right: -230px;
+          top: -30px;
+          right: 50px;
           width: 200px;
           overflow: hidden;
+          box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
           animation: slide-down 0.2s ease-in-out;
+          z-index: 2;
+
 
           li {
             @apply text-sm pl-3 pr-3 pt-2 pb-2;
-            transition: background 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+            
+            &.bookmark {
+              @apply bg-gray-300;
+            }
+
             &:hover {
-              @apply bg-[#cccccc];
+              @apply bg-gray-500 text-[--brightWhite];
             }
 
             ul {
@@ -224,16 +267,26 @@ body {
       }
 
       div.post-list__items__new {
-        @apply flex justify-between gap-3 pl-2 pr-2 text-[#e3fefc] text-shadow;
+        @apply w-3/6 flex gap-3 pl-2 pr-2 mt-5 text-[#ededed] font-light italic;
 
         span {
-          @apply text-[--fadedWhite] pr-2 uppercase text-shadow tracking-wide;
+          @apply text-white pr-2 uppercase tracking-wide text-lg;
         }
 
         button {
-          @apply tracking-wide;
+          @apply tracking-wide italic pb-2;
+          &:after {
+            display: block;
+            content: " ";
+            @apply border-b opacity-50;
+            transition: opacity .2s ease-in-out;
+
+          }
           &:hover {
-            @apply font-extrabold text-[#ffffff];
+            @apply text-[#ffffff];
+            &:after {
+              @apply opacity-100;
+            }
           }
         }
       }
@@ -245,7 +298,26 @@ body {
     height: 0;
   }
   to {
+    overflow: auto;
     height: 115px;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-signifiers-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 

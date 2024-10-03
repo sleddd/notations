@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { PostListOptions } from './PostListOptions';
 import { useMutation } from '@apollo/client';
 import { UPDATE_POST } from '@/graphql/mutations';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import { signifiers } from './signifiers';
 
 export const PostListItem = ({
     post,
@@ -9,13 +11,29 @@ export const PostListItem = ({
     setPostInputValues,
     refetchPosts
 }) => {
-    const [isEditing, setIsEditing]                         = useState(false);
-    const [activePostId, setActivePostId]                   = useState(null);
-    const [activePostContent, setActivePostContent]         = useState(null);
-    const [showPostOptions, setShowPostOptions]             = useState(false);
-    const [showPostOptionButton, setShowPostOptionButton]   = useState(true);
-    const inputRef                                          = useRef(null);
-    const [updatePost]                                      = useMutation(UPDATE_POST);
+    const [isEditing, setIsEditing] = useState(false);
+    const [activePostId, setActivePostId] = useState(null);
+    const [activePostContent, setActivePostContent] = useState(null);
+    const [showPostOptions, setShowPostOptions] = useState(false);
+    const [showPostOptionButton, setShowPostOptionButton] = useState(true);
+    const [showSignifierOptions, setShowSignifierOptions] = useState(false);
+    const inputRef = useRef(null);
+    const [updatePost] = useMutation(UPDATE_POST);
+    let postFormat = post.postFormats.edges.map(({ node }) => node.name);
+    postFormat = postFormat.filter((item, index) => postFormat.indexOf(item) === index);
+    if (postFormat.length < 1) {
+        postFormat = 'Standard';
+    }
+    const signifierClass = showSignifierOptions ? 'text-white' : '';
+
+    // Convert category to signifier icon.
+    let category = post.categories.edges.map(({ node }) => node.slug);
+    category = category?.[0] || 'task';
+    if ('uncategorized' == category) {
+        category = 'task';
+    }
+    let signifier = signifiers.find(signifier => signifier.slug === category);
+    signifier = signifier ? signifier.icon : <PlaylistAddCheckIcon />;
 
     useEffect(() => {
         if (isEditing) {
@@ -76,7 +94,52 @@ export const PostListItem = ({
         setShowPostOptionButton(false);
     }
 
+    const handleCategorySelect = async (postId, catSlug) => {
+        await updatePost({
+            variables: {
+                input: {
+                    id: postId,
+                    categories: {
+                        append: false,
+                        nodes: [
+                            { name: catSlug }
+                        ]
+                    }
+                }
+            }
+        });
+        await refetchPosts();
+        setIsEditing(false);
+        setActivePostId(null);
+        setShowPostOptions(false);
+    }
+
     return (<li className="post-list__item" key={post.id}>
+        <ul className={`post-list__item__signifiers ${postFormat}`}>
+            <li
+                className={`post-list__item__signifiers--active ${signifierClass}`}
+                onClick={() => { 
+                    showSignifierOptions ? setShowSignifierOptions(false) : setShowSignifierOptions(true); 
+                }}>
+                {signifier}
+                {showSignifierOptions &&
+                    <ul>
+                        {signifiers.map(signifier => {
+                            return (
+                                <li
+                                    key={signifier.slug}
+                                    role="button"
+                                    data-category={signifier.slug}
+                                    data-postid={post.postId}
+                                    onClick={() => handleCategorySelect(post.postId, signifier.slug)} >
+                                    {signifier.icon}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                }
+            </li>
+        </ul>
         <span onClick={(e) => { handlePostClick(e, post.postId) }}>
             {!isEditing ? postInputValues.find(postInput => postInput.id === post.postId).value : ''}
         </span>
@@ -94,7 +157,7 @@ export const PostListItem = ({
                 refetchPosts={refetchPosts}
             />
             : ''}
-        {activePostId == post.postId && 'editing' == isEditing ?
+        {activePostId == post.postId && 'editing' == isEditing && 'Standard' == postFormat ?
             <textarea
                 value={postInputValues.find(postInput => postInput.id === post.postId).value !== 'Click to write here...' ? postInputValues.find(postInput => postInput.id === post.postId).value : ''}
                 placeholder="Hit enter to save..."
@@ -104,6 +167,6 @@ export const PostListItem = ({
                 }}
                 onKeyDown={(e) => { handleInputKeyPress(e, post.postId) }}
             />
-            : null}
+            : ''}
     </li>)
 }
