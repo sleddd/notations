@@ -9,12 +9,29 @@ Re-vamp of an old React-based headless WordPress journaling application to work 
 
 ---
 
+## A note on the WP backend
+For this to work with your WP website, you will need to have installed and configured the following plugins: 
+- ![WP GraphQL Plugin] (https://www.wpgraphql.com/)
+- ![WP GraphQL Upload Plugin] (https://github.com/dre1080/wp-graphql-upload)
+- ![WP GraphQL CORS plugin] (https://github.com/funkhaus/wp-graphql-cors)
+- ![WP GraphQL JWT Authentication] (https://github.com/wp-graphql/wp-graphql-jwt-authentication)
+
+Also, note that for now, this is currently using custom mutations for uploading and setting a featured image outlined here:
+![https://gist.github.com/sleddd/dafe1f8e0f392ec9f1c142b914a680c2](https://gist.github.com/sleddd/dafe1f8e0f392ec9f1c142b914a680c2)
+
+You also need to add theme and post format support: 
+add_theme_support( 'post-formats', array( 'standard', 'link', 'image' ) );
+add_theme_support('post-thumbnails');
+add_post_type_support('post', 'thumbnail');
+
+---
+
 ## Getting Started
 
 First, setup your env.local with the following values: 
 
 NOTATIONS_GQL_URL={Your WP GraphQL endpoint}\
-NOTATIONS_SECRET={Used for Next JWT signing - you can generate it at command line by running "openssl rand -base64 32"}\
+NOTATIONS_SECRET={Used for Next JWT signing - you can generate it at command line by running "openssl rand -base64 32"} and it is part of the JWT setup process.
 
 Second, run the development server:
 
