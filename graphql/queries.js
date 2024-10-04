@@ -35,6 +35,11 @@ export const GET_POSTS_BY_DAY = gql`query getPostsByDay($year: Int, $month: Int,
             }
           }
         }
+        featuredImage { 
+          node {
+            link
+          }
+        }
         postFormats {
           edges {
             node {

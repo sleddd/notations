@@ -34,6 +34,7 @@ export const CREATE_BLANK_POST = gql`
     mutation CreateBlankPost($input: CreatePostInput!) {
     createPost(input: $input) {
         post {
+          postId
           title
           content
           date
@@ -61,13 +62,21 @@ export const UPDATE_POST = gql`
   }
 `;
 
-export const CREATE_MEDIA_ITEM = gql`
-  mutation CreateMediaItem($file: Upload!, $title: String!) {
-    createMediaItem(input: { file: $file, title: $title, status: PUBLISH }) {
+export const UPLOAD_IMAGE = gql`
+  mutation UploadImage($file: Upload!) {
+    uploadImage(input: { file: $file }) {
       mediaItem {
         id
+        databaseId
         sourceUrl
       }
     }
   }
 `;
+
+export const SET_FEATURED_IMAGE = gql`
+mutation SetFeaturedImage($postId: ID!, $imageId: ID!) {
+  setFeaturedImage(input: { postId: $postId, imageId: $imageId }) {
+    success
+  }
+}`;

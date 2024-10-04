@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { PostEditActions } from './edit-fields/postEditActions';
 import { TextEditField } from './edit-fields/textEditField';
+import { ImageEditField } from './edit-fields/imageEditField';
 import { SignifiersSelect } from './edit-fields/signifiersSelect';
 import { signifiers } from './signifiers';
 
@@ -8,7 +9,9 @@ export const PostListItem = ({
     post,
     postInputValues,
     setPostInputValues,
-    refetchPosts
+    addingImage,
+    setAddingImage,
+    refetchPosts,
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [activePostId, setActivePostId] = useState(null);
@@ -32,6 +35,11 @@ export const PostListItem = ({
     }
     let signifier = signifiers.find(signifier => signifier.slug === category);
     signifier = signifier ? signifier.icon : signifiers['task'].icon;
+
+    let imagePostUrl = null;
+    if ( 'Image' == postFormat ) {
+        imagePostUrl = post?.featuredImage?.node?.link;
+    }
 
     useEffect(() => {
         if (isEditing) {
@@ -74,11 +82,13 @@ export const PostListItem = ({
                         setIsEditing={setIsEditing}
                         setActivePostId={setActivePostId}
                         setShowPostOptions={setShowPostOptions}
+                        date={date}
                     />}
             </li>
         </ul>
         <span onClick={(e) => { handlePostClick(e, post.postId) }}>
-            {!isEditing && postInputValues.find(postInput => postInput.id === post.postId).value}
+            { 'Image' == postFormat && imagePostUrl ? <img src={imagePostUrl} /> : ''}
+            {!isEditing && 'Standard' == postFormat && postInputValues.find(postInput => postInput.id === post.postId).value}
         </span>
         {showPostOptionButton ?
             <button className="post-list__item__options-button" onClick={() => { handleOptionsButtonClick(post.postId) }}>...</button> : ''}
@@ -109,6 +119,12 @@ export const PostListItem = ({
                 setShowPostOptions={setShowPostOptions}
                 setShowPostOptionButton={setShowPostOptionButton}
                 setActivePostId={setActivePostId}
-            />}
+         />}
+         { addingImage && addingImage == post.postId && 'Image' == postFormat &&
+            <ImageEditField 
+                refetchPosts={refetchPosts}
+                addingImage={addingImage}
+                setAddingImage={setAddingImage}
+            /> }
     </li>)
 }

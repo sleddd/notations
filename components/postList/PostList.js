@@ -14,12 +14,13 @@ export const PostList = ({
     const [postInputValues, setPostInputValues] = useState([]);
     const [posts, setPosts] = useState([]);
     const [createBlankPost] = useMutation(CREATE_BLANK_POST);
+    const [addingImage, setAddingImage] = useState(false);
 
     useEffect(() => {
         if (Array.isArray(postData)) {
             setPosts(postData);
             const defaultPostInputValues = postData.map(({ node }) => {
-                let content = node.content.length == ' ' ? 'Click to write here...' : node.content;
+                let content = node?.content?.length == ' ' ? 'Click to write here...' : node?.content;
                 if (content) {
                     content = content.replace(/<[^>]*>/g, '');
                 }
@@ -29,8 +30,11 @@ export const PostList = ({
         }
     }, [postData]);
 
-    const addNewBlankPost = async () => {
-        await createBlankPost({
+    const addNewBlankPost = async ( postFormat ) => {
+        if ( !postFormat ) {
+            postFormat = 'standard';
+        }
+        const newPost = await createBlankPost({
             variables: {
                 input: {
                     date: formatDateToWP(date),
@@ -40,18 +44,23 @@ export const PostList = ({
                     postFormats: {
                         append: false,
                         nodes: [
-                            { name: "standard" }
+                            { name: postFormat }
                         ]
                     }
                 }
             }
         });
         await refetchPosts();
+        const newPostId = newPost?.data?.createPost?.post?.postId;
+        return newPostId;
     }
 
-    const addNewBlankLink = async () => { }
+    const addNewBlankLink = async () => {}
 
-    const addNewBlankImage = async () => { }
+    const addNewBlankImage = async () => {
+        const newPostId = await addNewBlankPost('image');
+        setAddingImage(newPostId);
+    }
 
     return (
         <>
@@ -71,6 +80,8 @@ export const PostList = ({
                                     post={node}
                                     postInputValues={postInputValues}
                                     setPostInputValues={setPostInputValues}
+                                    addingImage={addingImage}
+                                    setAddingImage={setAddingImage}
                                     refetchPosts={refetchPosts}
                                 />
                             ))}
@@ -79,7 +90,7 @@ export const PostList = ({
                 )}
             </div>
             <div className="post-list__actions">
-                <button onClick={addNewBlankPost}>Add Text</button>
+                <button onClick={()=>addNewBlankPost('standard')}>Add Text</button>
                 <button onClick={addNewBlankImage}>Add Image</button>
                 <button onClick={addNewBlankLink}>Add Link </button>
             </div>
