@@ -17,7 +17,7 @@ For this to work with your WP website, you will need to have installed and confi
 - WP GraphQL JWT Authentication (https://github.com/wp-graphql/wp-graphql-jwt-authentication)
 
 Also, note that for now, this is currently using custom mutations for uploading and setting a featured image outlined here:\
-https://gist.github.com/sleddd/dafe1f8e0f392ec9f1c142b914a680c2(https://gist.github.com/sleddd/dafe1f8e0f392ec9f1c142b914a680c2)\
+https://gist.github.com/sleddd/dafe1f8e0f392ec9f1c142b914a680c2
 
 You also need to add theme and post format support:\
 add_theme_support( 'post-formats', array( 'standard', 'link', 'image' ) );\
