@@ -7,7 +7,10 @@ It is currently a work in progress for both design and code.
 ![Next 14](https://img.shields.io/badge/Next%2014-black)
 ![NextAuth 4](https://img.shields.io/badge/NextAuth%204-purple)
 ![React 18](https://img.shields.io/badge/React%2018-teal)
+![WordPress](https://img.shields.io/badge/WordPress-blue)
 ![WP GraphQL](https://img.shields.io/badge/WP%20GraphQL-blue)
+
+<img width="1324" alt="Screenshot 2024-10-06 at 8 24 32 PM" src="https://github.com/user-attachments/assets/7ebe68eb-18e2-4aa1-9b33-0a485eb0de98">
 
 ---
 
