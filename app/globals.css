@@ -324,7 +324,7 @@
 
   /* Post List Actions */
   div.post-list__actions {
-    @apply m-0 p-0 w-full text-center block fixed bottom-0 right-0;
+    @apply m-0 p-0 w-full text-right block fixed bottom-0 right-0;
     z-index: 999;
 
     button {
