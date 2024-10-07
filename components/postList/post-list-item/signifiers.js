@@ -10,12 +10,19 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
 import BookIcon from '@mui/icons-material/Book';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import TaskIcon from '@mui/icons-material/Task';
+import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
+
+
 
 export const signifiers = [
     {
         name: 'Task',
         slug: 'task',
-        icon: <PlaylistAddCheckIcon />
+        icon: <TaskOutlinedIcon />
     },
     {
         name: 'Work',

@@ -228,7 +228,7 @@
         }
 
         &.post-list__item--image {
-          background-color: rgba(255, 255, 255, 0.20);
+          background-color: rgba(255, 255, 255, 0.15);
           backdrop-filter: blur(5px);
           -webkit-backdrop-filter: blur(5px);
 
@@ -324,24 +324,26 @@
 
   /* Post List Actions */
   div.post-list__actions {
-    @apply m-0 p-0 w-full text-right block fixed bottom-0 right-0;
+    @apply m-0 p-0 w-full text-right block absolute top-0;
     z-index: 999;
+    right: 150px;
 
     button {
-      @apply relative ml-1 mr-1.5 border border-b-0 border-l-0 border-opacity-0 text-black text-shadow bg-gray-500 bg-opacity-30 p-2 pl-3 pr-3 shadow-2xl italic rounded-md;
-      bottom: -10px;
-      padding-bottom: 15px;
-      border-color: #ffffff60;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.5);
+      @apply relative ml-1 mr-1 text-[--text-color] border-r text-shadow bg-opacity-30 p-2 pl-3 pr-3 shadow-2xl italic rounded-lg;
+      top: -3px;
+      padding-top: 25px;
+      border-color: #444444;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.15);
       transition: all 0.2s ease-in-out;
-      background-color: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.07);
+      background-color: rgba(255, 255, 255, 0.07);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
 
       &:hover {
-        @apply bottom-0 text-[#444444] font-medium;
+        @apply top-0 font-medium;
       }
     }
   }

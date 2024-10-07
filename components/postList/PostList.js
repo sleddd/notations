@@ -91,9 +91,9 @@ export const PostList = ({
                 )}
             </div>
             <div className="post-list__actions">
-                <button onClick={()=>addNewBlankPost('standard')}>Add Text</button>
-                <button onClick={addNewBlankImage}>Add Image</button>
-                <button onClick={addNewBlankLink}>Add Link </button>
+                <button onClick={()=>addNewBlankPost('standard')}> + Add Text</button>
+                <button onClick={addNewBlankImage}> + Add Image</button>
+                <button onClick={addNewBlankLink}> + Add Link </button>
             </div>
         </>
     )
