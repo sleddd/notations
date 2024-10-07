@@ -34,13 +34,16 @@ export const PostList = ({
         if ( !postFormat ) {
             postFormat = 'standard';
         }
+
+        // Adjust date. 
+        // Add latest time of the day to the date.
+        date.setHours(0,0,0);
         const newPost = await createBlankPost({
             variables: {
                 input: {
                     date: formatDateToWP(date),
                     title: formatDateToWP(date),
                     content: " ",
-                    status: "PRIVATE",
                     postFormats: {
                         append: false,
                         nodes: [

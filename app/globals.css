@@ -8,9 +8,9 @@
   --brightWhite: #ffffff;
   --text-color: #e7efee;
   --secondary-text-color: #e7efee;
-  --icon-color:#363c3c;
-  --icon-hover-color: #ffffff;
-  --icon-active-color: #ffffff;
+  --icon-color: #303030;
+  --icon-hover-color: #000000;
+  --icon-active-color: #000000;
 }
 
 @layer utilities {
@@ -193,53 +193,35 @@ body {
       ul.post-list__items {
         @apply w-5/6 md:w-3/6 flex flex-col items-start justify-center gap-5 mr-10 md:mr-0 mt-5 p-3 shadow-xl border border-white border-opacity-30 pt-10 pb-7;
         box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+  
 
         li.post-list__item {
           z-index: 0;
           border-radius: 4px;
           @apply relative w-full bg-[--brightWhite] bg-opacity-70 p-5 text-black; 
+          box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+      
+      
+          &.post-list__item--image {
+            background-color: rgba(255, 255, 255, 0.0);
+            backdrop-filter: blur(5px); 
+            -webkit-backdrop-filter: blur(5px);
+          }
+
+          .post-list__item--actions {
+            @apply bg-transparent border-t border-gray-300 mt-4 mb-0 pt-2 w-full flex flex-row flex-wrap justify-between text-[--icon-color];           
+          }
 
           .not-found {
             @apply bg-transparent text-[#ffffff] text-center;
           }
+
           textarea {
             @apply bg-transparent text-[#555555] p-2 w-11/12;
           }
 
-          ul.post-list__item__signifiers {
-            @apply flex justify-end p-2 absolute text-[--icon-active-color] text-opacity-60 bg-white bg-opacity-20;
-            border-radius: 6px;
-            bottom: 10px;
-            right: -55px;
-            position: absolute;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-
-            li {
-              position: relative;
-              padding: 0.10rem;
-              margin: 0;
-              ul {
-                top: -10px;
-                left: 45px;
-                z-index: -2;
-                width: 250px;
-                @apply flex flex-row flex-wrap absolute p-2 text-[--icon-color]  gap-2 rounded-md;
-                animation: slide-signifiers-in 0.5s ease-in-out;
-
-                li {
-                  @apply text-[--icon-active-color] p-1;
-                  transition: all 0.2s ease-in-out;
-                  border: 1px solid transparent;
-                  
-                  &:hover {
-                    @apply text-white;
-                    border: 1px solid var(--text-color);
-                  }
-                }
-              }
-            }
+          img {
+            max-height: 350px;
           }
         }
       
@@ -267,6 +249,10 @@ body {
               @apply bg-gray-300;
             }
 
+            &.migrating {
+              @apply border-t border-gray-400 border-b;
+            }
+
             &:hover {
               @apply bg-gray-500 text-white;
             }
@@ -289,17 +275,70 @@ body {
     z-index: 999;
     
     button {
-      @apply relative bottom-0 ml-1 mr-1.5 border border-b-0 border-l-0 border-opacity-0 text-white text-shadow bg-gray-500 bg-opacity-30 p-2 pl-3 pr-3 shadow-2xl italic rounded-md;
-      bottom: -5px;
-      padding-bottom: 10px;
+      @apply relative bottom-0 ml-1 mr-1.5 border border-b-0 border-l-0 border-opacity-0 text-black text-shadow bg-gray-500 bg-opacity-30 p-2 pl-3 pr-3 shadow-2xl italic rounded-md;
+      bottom: -10px;
+      padding-bottom: 15px;
       border-color: #ffffff60;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.5);
       transition: all 0.2s ease-in-out;
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(5px); 
+      -webkit-backdrop-filter: blur(5px);
       
       &:hover {
-        @apply bottom-0 text-white font-medium;
+        @apply bottom-0 text-[#444444] font-medium;
+      }
+    }
+  }
+}
+
+.post-list__item__signifiers {
+  @apply flex justify-end p-2;
+  border-radius: 6px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  li {
+    position: relative;
+    padding: 0.10rem;
+    margin: 0;
+
+    &:hover {
+      ul {
+        display: flex;
+        opacity: 1;
+      }
+    }
+
+    ul {
+      display: none;
+      opacity: 0;
+      position: absolute;
+      z-index: 10;
+      width: 500px;
+      top: -8px;
+      left: 30px;
+      z-index: 10;
+      @apply flex flex-row flex-wrap p-2 gap-2;
+      transition: opacity 0.3s ease-in-out;
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+      @media( max-width: 640px) {
+        width: 200px;
+        top: -90px;
+      }
+      
+      li {
+        @apply bg-gray-200 text-gray-800 px-2 py-1 rounded;
+        z-index: 999;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          @apply bg-gray-500 text-white;
+        }
       }
     }
   }

@@ -18,9 +18,14 @@ export const GET_USER = gql`
 `;
 
 
-export const GET_POSTS_BY_DAY = gql`query getPostsByDay($year: Int, $month: Int, $day: Int) {
+export const GET_POSTS_BY_DAY = gql`query getPostsByDay($year: Int, $month: Int, $day: Int, $author: Int) {
   posts(
-    where: {orderby: { field: DATE, order: ASC }, status: PRIVATE, dateQuery: {year: $year, month: $month, day: $day}}
+    where: {
+    orderby: { field: DATE, order: ASC },
+    dateQuery: {year: $year, month: $month, day: $day}
+    stati: [PRIVATE, PUBLISH] 
+    author: $author
+    }
   ) {
     edges {
       node {

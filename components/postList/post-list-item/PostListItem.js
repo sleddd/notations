@@ -4,6 +4,8 @@ import { TextEditField } from './edit-fields/textEditField';
 import { ImageEditField } from './edit-fields/imageEditField';
 import { SignifiersSelect } from './edit-fields/signifiersSelect';
 import { signifiers } from './signifiers';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export const PostListItem = ({
     post,
@@ -65,30 +67,15 @@ export const PostListItem = ({
         setShowPostOptionButton(false);
     }
 
-    return (<li className="post-list__item" key={post.id}>
-        <ul className={`post-list__item__signifiers`}>
-            <li
-                className={`post-list__item__signifiers--active ${signifierClass}`}
-                onClick={() => {
-                    showSignifierOptions ? setShowSignifierOptions(false) : setShowSignifierOptions(true);
-                }}>{signifier}
-                {showSignifierOptions &&
-                    // If use clicks to change signifier, then show signifier select options.
-                    <SignifiersSelect
-                        postId={post.postId}
-                        icon={signifier.icon}
-                        slug={signifier.slug}
-                        refetchPosts={refetchPosts}
-                        setIsEditing={setIsEditing}
-                        setActivePostId={setActivePostId}
-                        setShowPostOptions={setShowPostOptions}
-                        date={date}
-                    />}
-            </li>
-        </ul>
+
+    const formatClass = 'Image' == postFormat ? 'post-list__item--image' : 'post-list__item--standard';   
+
+    return (<li className={`post-list__item ${formatClass}`} key={post.id}>
         <span onClick={(e) => { handlePostClick(e, post.postId) }}>
-            { 'Image' == postFormat && imagePostUrl ? <img src={imagePostUrl} /> : ''}
-            {!isEditing && 'Standard' == postFormat && postInputValues.find(postInput => postInput.id === post.postId).value}
+            { 'Image' == postFormat && imagePostUrl ? 
+                <img src={imagePostUrl} loading="lazy" /> : ''}
+            {!isEditing && 'Standard' == postFormat && 
+                postInputValues.find(postInput => postInput.id === post.postId).value}
         </span>
         {showPostOptionButton ?
             <button className="post-list__item__options-button" onClick={() => { handleOptionsButtonClick(post.postId) }}>...</button> : ''}
@@ -126,5 +113,27 @@ export const PostListItem = ({
                 addingImage={addingImage}
                 setAddingImage={setAddingImage}
             /> }
+        <div className="post-list__item--actions">
+            <ul className={`post-list__item__signifiers`}>
+                <li
+                    className={`post-list__item__signifiers--active`}
+                    onClick={() => {
+                        showSignifierOptions ? setShowSignifierOptions(false) : setShowSignifierOptions(true);
+                    }}>{signifier}
+                    {showSignifierOptions &&
+                        // If use clicks to change signifier, then show signifier select options.
+                        <SignifiersSelect
+                            postId={post.postId}
+                            icon={signifier.icon}
+                            slug={signifier.slug}
+                            refetchPosts={refetchPosts}
+                            setIsEditing={setIsEditing}
+                            setActivePostId={setActivePostId}
+                            setShowPostOptions={setShowPostOptions}
+                        />}
+                </li>
+            </ul>
+            <button><FavoriteBorderIcon/></button>
+        </div>
     </li>)
 }

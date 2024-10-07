@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useMutation } from '@apollo/client';
-import { UPLOAD_IMAGE, CREATE_BLANK_POST, SET_FEATURED_IMAGE } from '@/graphql/mutations';
+import { UPLOAD_IMAGE, SET_FEATURED_IMAGE } from '@/graphql/mutations';
 import { formatDateToWP } from '@/lib/calendar';
 
 export const ImageEditField = ({
@@ -12,7 +12,6 @@ export const ImageEditField = ({
   const { data: session } = useSession();
   const [file, setFile] = useState(null);
   const [uploadImage] = useMutation(UPLOAD_IMAGE);
-  const [createBlankPost] = useMutation(CREATE_BLANK_POST);
   const [setFeaturedImage] = useMutation(SET_FEATURED_IMAGE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

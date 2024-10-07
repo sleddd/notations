@@ -37,6 +37,10 @@ export const PostEditActions = ({
             <li className="bookmark"><BookmarkBorderIcon /> Add to Collection</li>
             <li onClick={handleEdit}>Edit</li>
             <li onClick={handleDelete}>Delete</li>
+            <li className="migrating">Make Migrate</li>
+            <li onClick={handleDelete}>Make Public</li>
+            <li onClick={handleDelete}>Share Public Link</li>
+
         </ul>
     );
 }
