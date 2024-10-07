@@ -1,7 +1,7 @@
 ## Notations
-Re-vamp of an old React-based headless WordPress journaling application to work with Next.js 14, NextAuth 4, and WP GraphQL. It is a completely separate application that relies on WordPress for the pre-built GQL API and backend.\
+Re-vamp of an old React-based headless WordPress journaling application to work with Next.js 14, NextAuth 4, and WP GraphQL. It is a completely separate application that relies on WordPress for the pre-built GQL API and backend.
 
-It is currently a working in progress for both design and code.\
+It is currently a work in progress for both design and code.
 
 ## Libraries and Frameworks
 ![Next 14](https://img.shields.io/badge/Next%2014-black)
