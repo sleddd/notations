@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useMutation } from '@apollo/client';
-import { UPLOAD_IMAGE, SET_FEATURED_IMAGE } from '@/graphql/mutations';
+import { UPLOAD_IMAGE, SET_FEATURED_IMAGE, CREATE_POST } from '@/graphql/mutations';
 import { formatDateToWP } from '@/lib/calendar';
 
 export const ImageEditField = ({
   refetchPosts,
-  addingImage,
-  setAddingImage
+  date
 }) => {
   const { data: session } = useSession();
   const [file, setFile] = useState(null);
   const [uploadImage] = useMutation(UPLOAD_IMAGE);
+  const [createPost] = useMutation(CREATE_POST);
   const [setFeaturedImage] = useMutation(SET_FEATURED_IMAGE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -29,18 +29,39 @@ export const ImageEditField = ({
     setLoading(true);
     setError(null);
 
+    // Add blank post and get the new post id.
+    const newPost = await createPost({
+      variables: {
+        input: {
+          date: formatDateToWP(date),
+          title: formatDateToWP(date),
+          content: '',
+          status: "PRIVATE",
+          postFormats: {
+            append: false,
+            nodes: [
+              { name: 'image' }
+            ]
+          }
+        }
+      }
+    });
+
+    const newPostId = newPost?.data?.createPost?.post?.postId;
+
+    if (!newPostId) {
+      return;
+    }
+    setFile(file[0]);
+
+    // Upload the image.
     const { data } = await uploadImage({
       variables: { file },
-      context: {
-        headers: {
-          'Apollo-Require-Preflight': 'true',
-        },
-      },
     });
 
     const mediaItemId = data?.uploadImage?.mediaItem?.databaseId;
-    const newPostId   = addingImage;
-    
+
+    // Set the featured image.
     await setFeaturedImage({
       variables: {
         "postId": newPostId,
@@ -48,7 +69,7 @@ export const ImageEditField = ({
       },
     });
 
-    setAddingImage(false);
+    // Reset the form.
     setFile(null);
     setError(null);
     setLoading(false);
@@ -60,7 +81,7 @@ export const ImageEditField = ({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="image-edit-form">
       <input type="file" accept="image/*" onChange={handleFileChange} />
       <br />
       <button type="submit" disabled={!file || loading}>

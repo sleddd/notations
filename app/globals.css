@@ -225,6 +225,37 @@
               }
             }
           }
+
+          &.post-list__item--actions--new {
+            @apply flex items-center justify-between italic;
+            li {
+              position: relative;
+              padding: 0.10rem;
+              margin: 0;
+              @apply border border-gray-300 text-gray-800 px-2 py-1 rounded mr-2;
+
+              &:hover {
+                @apply border-gray-500;
+              };
+
+              &:last-child {
+                @apply mr-0;
+              }
+            }
+          }
+        }
+
+        .image-edit-form {
+          @apply flex flex-row flex-wrap justify-between items-center gap-2;
+
+          button { 
+            @apply bg-gray-300 p-2 pl-3 pr-3 rounded text-black text-opacity-80;
+           
+
+            &:hover {
+              @apply bg-gray-500 text-white;
+            }
+          }
         }
 
         &.post-list__item--image {

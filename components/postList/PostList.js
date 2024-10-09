@@ -1,9 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { PostListItem } from './post-list-item/PostListItem';
-import { useMutation } from '@apollo/client';
-import { CREATE_BLANK_POST } from '@/graphql/mutations';
-import { formatDateToWP } from '@/lib/calendar';
+import { ImageEditField } from './post-list-item/edit-fields/imageEditField';
+import { TextEditField } from './post-list-item/edit-fields/textEditField';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import LinkIcon from '@mui/icons-material/Link';
+import TextFieldsIcon from '@mui/icons-material/TextFields';
 
 export const PostList = ({
     postData,
@@ -13,8 +15,7 @@ export const PostList = ({
 }) => {
     const [postInputValues, setPostInputValues] = useState([]);
     const [posts, setPosts] = useState([]);
-    const [createBlankPost] = useMutation(CREATE_BLANK_POST);
-    const [addingImage, setAddingImage] = useState(false);
+    const [addPostAction, setAddPostAction] = useState('text');
 
     useEffect(() => {
         if (Array.isArray(postData)) {
@@ -30,39 +31,6 @@ export const PostList = ({
         }
     }, [postData]);
 
-    const addNewBlankPost = async ( postFormat ) => {
-        if ( !postFormat ) {
-            postFormat = 'standard';
-        }
-    
-        const newPost = await createBlankPost({
-            variables: {
-                input: {
-                    date: formatDateToWP(date),
-                    title: formatDateToWP(date),
-                    content: " ",
-                    status: "PRIVATE",
-                    postFormats: {
-                        append: false,
-                        nodes: [
-                            { name: postFormat }
-                        ]
-                    }
-                }
-            }
-        });
-        await refetchPosts();
-        const newPostId = newPost?.data?.createPost?.post?.postId;
-        return newPostId;
-    }
-
-    const addNewBlankLink = async () => {}
-
-    const addNewBlankImage = async () => {
-        const newPostId = await addNewBlankPost('image');
-        setAddingImage(newPostId);
-    }
-
     return (
         <>
             <div className="post-list">
@@ -75,25 +43,51 @@ export const PostList = ({
                             {!loading && posts?.length <= 0 && (
                                 <li className="not-found">No posts found.</li>
                             )}
+                            <li className="post-list__item">
+                                {addPostAction == 'image' && <ImageEditField
+                                    placeholder="Click to begin writing here..."
+                                    refetchPosts={refetchPosts}
+                                    date={date}
+                                />}
+                                {addPostAction == 'text' && <TextEditField
+                                    placeholder="Click to begin writing here..."
+                                    newItem="text"
+                                    refetchPosts={refetchPosts}
+                                    date={date}
+                                />}
+                                {addPostAction == 'link' && <TextEditField
+                                    placeholder="Add your link her..."
+                                    newItem="link"
+                                    refetchPosts={refetchPosts}
+                                    date={date}
+                                />}
+                                <div className="post-list__item--actions post-list__item--actions--new">
+                                    Switch to Add:
+                                    <ul className={`post-list__item__signifiers`}>
+                                        <li className="post-list__item__signifiers__item">
+                                            <TextFieldsIcon onClick={() => setAddPostAction('text')} />
+                                        </li>
+                                        <li className="post-list__item__signifiers__item">
+                                            <PhotoCameraIcon onClick={() => setAddPostAction('image')} />
+                                        </li>
+                                        <li className="post-list__item__signifiers__item">
+                                            <LinkIcon onClick={() => setAddPostAction('link')} />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                             {posts.map(({ node }) => (
                                 <PostListItem
                                     key={node.postId}
                                     post={node}
                                     postInputValues={postInputValues}
                                     setPostInputValues={setPostInputValues}
-                                    addingImage={addingImage}
-                                    setAddingImage={setAddingImage}
                                     refetchPosts={refetchPosts}
                                 />
                             ))}
                         </ul>
                     </>
                 )}
-            </div>
-            <div className="post-list__actions">
-                <button onClick={()=>addNewBlankPost('standard')}> + Add Text</button>
-                <button onClick={addNewBlankImage}> + Add Image</button>
-                <button onClick={addNewBlankLink}> + Add Link </button>
             </div>
         </>
     )

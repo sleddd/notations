@@ -4,9 +4,12 @@ export const LOGIN = gql`
 mutation login($password: String!, $username: String!) {
 login(input: {password: $password, username: $username }) {
     user {
-    id
     userId
-    firstName
+    name
+    email
+    avatar {
+      url
+    }
     jwtAuthToken
     jwtRefreshToken
     jwtAuthExpiration
@@ -30,8 +33,8 @@ mutation refreshJwtAuthToken($token: String!) {
 }`;
 
 
-export const CREATE_BLANK_POST = gql`
-    mutation CreateBlankPost($input: CreatePostInput!) {
+export const CREATE_POST = gql`
+    mutation CreatePost($input: CreatePostInput!) {
     createPost(input: $input) {
         post {
           postId
