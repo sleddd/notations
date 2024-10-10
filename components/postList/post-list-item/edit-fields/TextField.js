@@ -67,7 +67,7 @@ export const TextField = ({
 
     return (
         <textarea 
-            placeholder="Click to write..." 
+            placeholder="Click to type and enter to save..." 
             onClick={(e)=>handleTextFieldEvent(e)}
             onChange={(e)=>handleTextFieldEvent(e)}
             onKeyDown={(e)=>handleTextFieldEvent(e)}   
