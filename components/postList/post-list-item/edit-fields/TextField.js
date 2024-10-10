@@ -16,11 +16,10 @@ export const TextField = ({
     const [inputValue, setInputValue] = useState(value);
 
     const handleTextFieldEvent = async(e) => {
-        // Set the input Value.
         setInputValue(e.target.value);
 
         // Editing end.
-        if ( e.key === 'Enter' || e.key === 'Escape' || e.type === 'touchend' ) {
+        if ( ( e.key === 'Enter' && !e.shiftKey ) || e.key === 'Escape' || e.type === 'touchend' ) {
             // Save post. 
             if ( postid != 0 ) {
                 // Update existing post.
@@ -32,6 +31,9 @@ export const TextField = ({
                         }
                     }
                 });
+                await refetch();
+                setInputValue('');
+                setIsEditing(false);
             } else {
                 // Create new post.
                 await createPost({
@@ -52,6 +54,7 @@ export const TextField = ({
                 });
             }
             await refetch();
+            setInputValue('');
             setIsEditing(false);
         }
 
@@ -64,7 +67,7 @@ export const TextField = ({
 
     return (
         <textarea 
-            placholder="Click to write..." 
+            placeholder="Click to write..." 
             onClick={(e)=>handleTextFieldEvent(e)}
             onChange={(e)=>handleTextFieldEvent(e)}
             onKeyDown={(e)=>handleTextFieldEvent(e)}   

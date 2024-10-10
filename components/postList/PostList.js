@@ -3,8 +3,11 @@ import {
     createContext, 
     useContext 
 } from 'react';
+import Link from 'next/link';
 import { PostListItem } from '@/components/postList/post-list-item/PostListItem';
 import { PostListNewItem } from '@/components/postList/post-list-item/PostListNewItem';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 // Default post state of PostList.
 export const PostListState = {
@@ -31,9 +34,23 @@ export const PostList = ({ value }) => {
 export const PostListContent = () => {
     const { posts, refetch, date } = useContext( PostListContext );
 
+    // Calculate the previous day linke in year/month/day format.
+    const previousDay = new Date(date);
+    previousDay.setDate(previousDay.getDate() - 1);
+    const previousDayLink = `/calendar/${previousDay.getFullYear()}/${previousDay.getMonth() + 1}/${previousDay.getDate()}`;
+
+    // Calculate the next day linke in year/month/day format.
+    const nextDay = new Date(date);
+    nextDay.setDate(nextDay.getDate() + 1);
+    const nextDayLink = `/calendar/${nextDay.getFullYear()}/${nextDay.getMonth() + 1}/${nextDay.getDate()}`;
+
     return (
         <div className="post-list">
-            <p className="post-list__date">{date.toDateString()}</p>
+            <div className="post-list__nav">
+                <Link href={previousDayLink}><ArrowBackIosIcon /></Link>
+                <p className="post-list__date">{date.toDateString()}</p>
+                <Link href={nextDayLink}><ArrowForwardIosIcon /></Link>
+            </div>
             <ul className="post-list__items">
                 <PostListNewItem />
                 {posts?.map(({ node }) => (
