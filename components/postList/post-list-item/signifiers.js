@@ -1,6 +1,4 @@
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+'use client';
 import WorkIcon from '@mui/icons-material/Work';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
@@ -10,13 +8,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PersonIcon from '@mui/icons-material/Person';
 import BookIcon from '@mui/icons-material/Book';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import TaskIcon from '@mui/icons-material/Task';
 import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
-
-
 
 export const signifiers = [
     {

@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+'use client';
+import { useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPLOAD_IMAGE, SET_FEATURED_IMAGE, CREATE_POST } from '@/graphql/mutations';
 import { formatDateToWP } from '@/lib/calendar';
+import { PostListContext } from '@/components/postList/PostList';
 
-export const ImageEditField = ({
-  refetchPosts,
-  date
-}) => {
-  const { data: session } = useSession();
+export const ImageField = () => {
+  const { refetch, date } = useContext(PostListContext);
   const [file, setFile] = useState(null);
   const [uploadImage] = useMutation(UPLOAD_IMAGE);
   const [createPost] = useMutation(CREATE_POST);
@@ -70,15 +68,11 @@ export const ImageEditField = ({
     });
 
     // Reset the form.
+    await refetch();
     setFile(null);
     setError(null);
     setLoading(false);
-    refetchPosts();
   };
-
-  if (!session) {
-    return <p>Please sign in to upload images.</p>;
-  }
 
   return (
     <form onSubmit={handleSubmit} className="image-edit-form">
@@ -92,4 +86,4 @@ export const ImageEditField = ({
   );
 };
 
-export default ImageEditField;
+export default ImageField;

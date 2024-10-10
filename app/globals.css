@@ -24,6 +24,7 @@
 }
 
 @layer components {
+
   /* Global Styles */
   body {
     font-family: 'Montserrat', sans-serif;
@@ -167,93 +168,88 @@
   .post-list {
     @apply mt-10 pb-20 flex flex-col items-center justify-center;
 
-    ul.post-list__items {
+    .post-list__items {
       @apply w-5/6 md:w-3/6 flex flex-col items-start justify-center gap-5 mr-0 mt-5 p-3 pt-10 pb-7;
- 
-      li.post-list__item {
+
+      .post-list__item {
+        @apply relative w-full bg-[--bright-white] bg-opacity-70 p-5 text-black;
         z-index: 0;
         border-radius: 4px;
-        @apply relative w-full bg-[--bright-white] bg-opacity-70 p-5 text-black;
         box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
 
-        .post-list__item--actions {
-          @apply bg-transparent border-t mt-4 mb-0 pt-2 w-full flex flex-row flex-wrap justify-between text-[--icon-color];
+        .image-edit-form {
+          @apply flex flex-row flex-wrap justify-between items-center gap-2;
 
-          .post-list__item__signifiers {
-            @apply flex justify-end p-2;
-            border-radius: 6px;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+          button {
+            @apply bg-gray-300 p-2 pl-3 pr-3 rounded text-black text-opacity-80;
 
-            li {
-              position: relative;
-              padding: 0.10rem;
-              margin: 0;
 
-              &:hover ul {
-                display: flex;
-                opacity: 1;
-              }
-
-              ul {
-                display: none;
-                opacity: 0;
-                position: absolute;
-                z-index: 10;
-                width: 500px;
-                top: -8px;
-                left: 30px;
-                @apply flex flex-row flex-wrap p-2 gap-2;
-                transition: opacity 0.3s ease-in-out;
-                background-color: rgba(255, 255, 255, 0.9);
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
-                @media (max-width: 640px) {
-                  width: 200px;
-                  top: -90px;
-                }
-
-                li {
-                  @apply bg-gray-200 text-gray-800 px-2 py-1 rounded;
-                  z-index: 999;
-                  transition: all 0.2s ease-in-out;
-
-                  &:hover {
-                    @apply bg-gray-500 text-white;
-                  }
-                }
-              }
+            &:hover {
+              @apply bg-gray-500 text-white;
             }
           }
+        }
 
-          &.post-list__item--actions--new {
-            @apply flex items-center justify-between italic;
+        .post-list__item__signifiers,
+        .post-list__actions {
+          @apply bg-transparent pt-2 pb-2 pr-2 text-lg;
+
+          .post-list__action-button {
+            @apply bg-transparent pt-2 pb-2 pr-2 text-lg;
+          }
+
+          .post-list__item__signifiers-selector {
+            @apply absolute bg-transparent flex flex-row;
+            bottom: 15px;
+            left: 50px;
+            animation: slide-signifiers-in 0.2s ease-in-out;
+
             li {
-              position: relative;
-              padding: 0.10rem;
-              margin: 0;
-              @apply border border-gray-300 text-gray-800 px-2 py-1 rounded mr-2;
+              @apply bg-gray-200 bg-opacity-50 p-1.5 m-1 rounded;
 
               &:hover {
-                @apply border-gray-500;
-              };
-
-              &:last-child {
-                @apply mr-0;
+                @apply bg-gray-400 text-white;
               }
             }
           }
         }
 
-        .image-edit-form {
-          @apply flex flex-row flex-wrap justify-between items-center gap-2;
+        .post-list__item__actions-button {
+          @apply absolute top-0 right-0 p-2 text-3xl;
+          color: #5f5f5f;
+        }
 
-          button { 
-            @apply bg-gray-300 p-2 pl-3 pr-3 rounded text-black text-opacity-80;
-           
+        .post-list__item__actions {
+          @apply absolute rounded-sm;
+          top: -70px;
+          right: 50px;
+          width: 200px;
+          overflow: hidden;
+          box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+          animation: slide-down 0.2s ease-in-out;
+          z-index: 2;
+          background-color: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(5px);
+          -webkit-backdrop-filter: blur(5px);
+
+          li {
+            @apply text-sm pl-3 pr-3 pt-2 pb-2;
+            transition: all 0.2s ease-in-out;
+
+            &.bookmark {
+              @apply bg-gray-300;
+            }
+
+            &.migrating {
+              @apply border-t border-gray-300 border-b;
+            }
 
             &:hover {
               @apply bg-gray-500 text-white;
+            }
+
+            ul {
+              display: none;
             }
           }
         }
@@ -263,32 +259,14 @@
           backdrop-filter: blur(5px);
           -webkit-backdrop-filter: blur(5px);
 
-          .post-list__item--actions {
-            @apply border-t-0 pt-0;
-          }
-
-          .post-list__item__options-button {
-            @apply text-white;
-          }
-
-          .post-list__item--actions {
-            button {
-              @apply text-white;
-            }
-          }
-
           .post-list__item__signifiers {
-            @apply bg-transparent;
-            li {
-              @apply text-white;
-              ul {
-                @apply bg-transparent;
-                backdrop-filter: blur(5px);
-                -webkit-backdrop-filter: blur(5px);
+            @apply text-white;
 
-                li {
-                  @apply bg-gray-500 bg-opacity-60 text-white;
-                }
+            .post-list__item__signifiers-selector {
+              @apply text-white;
+
+              li {
+                @apply text-white;
               }
             }
           }
@@ -305,77 +283,12 @@
         img {
           max-height: 375px;
         }
-      }
 
-      li .post-list__item__options-button {
-        @apply absolute top-0 right-0 p-2 text-3xl;
-        color: #5f5f5f;
-      }
-
-      li .post-list__item__options-menu {
-        @apply absolute rounded-sm;
-        top: -70px;
-        right: 50px;
-        width: 200px;
-        overflow: hidden;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
-        animation: slide-down 0.2s ease-in-out;
-        z-index: 2;
-        background-color: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-
-        li {
-          @apply text-sm pl-3 pr-3 pt-2 pb-2;
-          transition: all 0.2s ease-in-out;
-
-          &.bookmark {
-            @apply bg-gray-300;
-          }
-
-          &.migrating {
-            @apply border-t border-gray-300 border-b;
-          }
-
-          &:hover {
-            @apply bg-gray-500 text-white;
-          }
-
-          ul {
-            display: none;
-          }
-        }
       }
     }
 
     p.post-list__date {
       @apply uppercase tracking-wide text-shadow text-white;
-    }
-  }
-
-  /* Post List Actions */
-  div.post-list__actions {
-    @apply m-0 p-0 w-full text-right block absolute top-0;
-    z-index: 999;
-    right: 150px;
-
-    button {
-      @apply relative ml-1 mr-1 text-[--text-color] border-r text-shadow bg-opacity-30 p-2 pl-3 pr-3 shadow-2xl italic rounded-lg;
-      top: -3px;
-      padding-top: 25px;
-      border-color: #444444;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.15);
-      transition: all 0.2s ease-in-out;
-      border-color: rgba(255, 255, 255, 0.07);
-      background-color: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-
-      &:hover {
-        @apply top-0 font-medium;
-      }
     }
   }
 
@@ -395,6 +308,7 @@
   from {
     transform: translateX(-50%) translateY(100%);
   }
+
   to {
     transform: translateX(-50%) translateY(75%);
   }
@@ -404,6 +318,7 @@
   from {
     height: 0;
   }
+
   to {
     overflow: auto;
     height: 115px;
@@ -414,6 +329,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -423,6 +339,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

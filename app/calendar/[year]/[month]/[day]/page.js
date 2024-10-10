@@ -6,6 +6,7 @@ import { PostList } from '@/components/postList/PostList';
 import { useSession } from 'next-auth/react';
 
 export const CalendarDay = () => {
+  // Get calendar requested from path name.
   const pathName = usePathname();
   const parts = pathName.split('/');
   const year = parts[parts.length - 3];
@@ -13,6 +14,7 @@ export const CalendarDay = () => {
   const day = parts[parts.length - 1];
   const { data: user } = useSession();
 
+  // Query with GQL for day. 
   const { data, loading, refetch } = useQuery(GET_POSTS_BY_DAY, {
     variables: { 
       year: parseInt(year), 
@@ -23,19 +25,22 @@ export const CalendarDay = () => {
     fetchPolicy: "no-cache"
   });
 
+  // Format date requested for outputting to screen.
   const date = new Date(
     parseInt(year), 
     parseInt(month) - 1, 
     parseInt(day)
   );
 
+  // Set up post list content.
+  const PostListState = {
+    posts: data?.posts?.edges,
+    date,
+    refetch: refetch,
+  }
+
   return (
-    <PostList
-      postData={data?.posts?.edges}
-      loading={loading}
-      date={date}
-      refetchPosts={refetch}
-    />
+    <PostList value={PostListState}/>
   )
 }
 
