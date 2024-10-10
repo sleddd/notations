@@ -1,24 +1,59 @@
-import { useState } from 'react';
+'use client';
+import { useState, useEffect, useContext } from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useMutation } from '@apollo/client';
 import { UPDATE_POST_META } from '@/graphql/mutations';
+import { useSession } from 'next-auth/react';
 
-// Favorites is post meta notations_favorites [{ value: 1, name: 'user.name' }]
-
-export const Reactions = ({ }) => {
+export const Reactions = ({ post }) => {
     const [isFavorited, setIsFavorited] = useState(false);
+    const [reactions, setReactions] = useState([]);
+    const [updatePostMeta] = useMutation(UPDATE_POST_META);
+    const { data: session } = useSession();
 
-    const handleFavorite = () => {
-        setIsFavorited(!isFavorited);
-        if ( isFavorited ) {
-            // Addfavorite.
+    useEffect(() => {
+        const postReactions = post?.meta?.find(reaction => reaction.key === 'notations_reactions')?.value?.split(',') || [];
+        setReactions(postReactions);
+        if (session?.user?.name && postReactions.includes(session?.user?.name)) {
+            setIsFavorited(true);
         }
-        if ( !isFavorited ) {
-            // Remove favorite.
+    }, [post]);
+
+    const handleFavorite = async () => {
+        if (!isFavorited) {
+            const already_exists = reactions.includes(session?.user?.name);
+            if (!already_exists) {
+                const updatedReactions = [...reactions, session?.user?.name];
+                setReactions(updatedReactions);
+                await updatePostMeta({
+                    variables: {
+                        input: {
+                            postId: post.postId,
+                            metaKey: 'notations_reactions',
+                            metaValue: updatedReactions.join(',')
+                        }
+                    }
+                });
+            }
+            setIsFavorited(true);
         }
-        // Update post meta.
-        // TODO: Setup GQL to handle post meta in queries and mutations.
+        if (isFavorited) {
+            if (reactions.includes(session?.user?.name)) {
+                const updatedReactions = reactions.filter(reaction => reaction !== session?.user?.name);
+                setReactions(updatedReactions);
+                await updatePostMeta({
+                    variables: {
+                        input: {
+                            postId: post.postId,
+                            metaKey: 'notations_reactions',
+                            metaValue: updatedReactions.join(',')
+                        }
+                    }
+                });
+            }
+            setIsFavorited(false);
+        }
     }
 
     return (

@@ -38,7 +38,6 @@ export const PostListItem = ({ post }) => {
             setIsEditing(true);
         }
     }
-
     return (
         <li
             key={post.id}

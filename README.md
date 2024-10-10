@@ -26,6 +26,9 @@ For this to work with your WP website, you will need to have installed and confi
 Also, note that for now, this is currently using custom mutations for uploading and setting a featured image outlined here:\
 https://gist.github.com/sleddd/dafe1f8e0f392ec9f1c142b914a680c2
 
+It also uses an additional post meta query field and update post meta mutation: 
+https://gist.github.com/sleddd/a036927de7bc9b0dede75367c0ec3bb2
+
 You also need to add theme and post format support:\
 add_theme_support( 'post-formats', array( 'standard', 'link', 'image' ) );\
 add_theme_support('post-thumbnails');\

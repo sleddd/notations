@@ -52,6 +52,10 @@ export const GET_POSTS_BY_DAY = gql`query getPostsByDay($year: Int, $month: Int,
             }
           }
         }
+        meta {
+          key, 
+          value
+        }
       }
     }
   }

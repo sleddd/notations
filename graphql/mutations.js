@@ -65,6 +65,15 @@ export const UPDATE_POST = gql`
   }
 `;
 
+
+export const UPDATE_POST_META = gql`
+  mutation UpdatePostMeta($input: UpdatePostMetaInput!) {
+    updatePostMeta(input: $input) {
+      status
+    }
+  }
+`;
+
 export const UPLOAD_IMAGE = gql`
   mutation UploadImage($file: Upload!) {
     uploadImage(input: { file: $file }) {

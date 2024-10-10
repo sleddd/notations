@@ -32,7 +32,7 @@ const backgrounds = [
   { name: "eleven", url: "/assets/background-eleven.jpg", attribution: 'Photo by <a href="https://unsplash.com/@itfeelslikefilm?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Janko Ferlič</a> on <a href="https://unsplash.com/photos/shallow-depth-of-field-photo-of-white-teacup-on-saucer-jmhwim1FUr4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>' },
 
 
-]
+];
 
 export default function RootLayout({ children }) {
   return (
