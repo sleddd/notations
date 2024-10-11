@@ -92,3 +92,23 @@ mutation SetFeaturedImage($postId: ID!, $imageId: ID!) {
     success
   }
 }`;
+
+
+export const ADD_COLLECTION = gql`
+mutation CreateCollection($input: CreateCollectionInput!) {
+  createCollection(input: $input) {
+    collection {
+      collectionId
+      name
+      slug
+    }
+  }
+}`;
+
+
+export const DELETE_COLLECTION = gql`
+mutation DeleteCollection($input: CreateCollectionInput!) {
+  deleteCollection(input: $input) {
+    deletedId
+  }
+}`;

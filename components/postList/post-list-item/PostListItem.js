@@ -4,6 +4,7 @@ import { TextField } from '@/components/postList/post-list-item/edit-fields/Text
 import { ItemEditActions } from '@/components/postList/post-list-item/edit-fields/ItemEditActions';
 import { SignifierSwitcher } from '@/components/postList/post-list-item/edit-fields/SignifierSwitcher';
 import { Reactions } from '@/components/postList/post-list-item/edit-fields/Reactions';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 export const PostItemState = {
     post: {},
@@ -18,6 +19,9 @@ export const PostListItem = ({ post }) => {
     if (postFormat.length < 1) {
         postFormat = 'standard';
     }
+
+    // Set collections.
+    const postCollections = post?.collections?.edges?.map(({ node }) => node);
 
     // Set post list classes
     const postListClasses = 'image' == postFormat ? 'post-list__item post-list__item--image' : 'post-list__item post-list__item--standard';
@@ -48,6 +52,7 @@ export const PostListItem = ({ post }) => {
             onTouchStart={handlePostListItemEvent}
             onTouchEnd={handlePostListItemEvent}
         >
+            { postCollections?.length ? <span className="post-list__item--bookmarked"><BookmarkIcon/></span> : '' }
             {isEditing &&
                 <>
                     {'standard' == postFormat &&
@@ -79,6 +84,7 @@ export const PostListItem = ({ post }) => {
             }
             <ItemEditActions
                 setIsEditing={setIsEditing}
+                postCollections={postCollections}
                 postid={post?.postId}
             />
             <div className="post-list__item__footer-actions">
@@ -86,9 +92,11 @@ export const PostListItem = ({ post }) => {
                     postid={post?.postId}
                     postSignifiers={post.categories.edges}
                 />
-                <Reactions
-                    post={post}
-                />
+                { 'image' == postFormat && 
+                    <Reactions
+                        post={post}
+                    /> 
+                }
             </div>
         </li>
     );

@@ -13,7 +13,7 @@ export const CalendarDay = () => {
   const month = parts[parts.length - 2];
   const day = parts[parts.length - 1];
   const { data: user } = useSession();
-
+  
   // Query with GQL for day. 
   const { data, loading, refetch } = useQuery(GET_POSTS_BY_DAY, {
     variables: { 
@@ -25,6 +25,10 @@ export const CalendarDay = () => {
     fetchPolicy: "no-cache"
   });
 
+
+  const posts = data?.posts?.edges;
+  const collections = data?.collections?.edges?.map(({ node }) => node);
+
   // Format date requested for outputting to screen.
   const date = new Date(
     parseInt(year), 
@@ -34,9 +38,10 @@ export const CalendarDay = () => {
 
   // Set up post list content.
   const PostListState = {
-    posts: data?.posts?.edges,
+    collections: collections,
+    posts: posts,
     date,
-    refetch: refetch,
+    refetch: refetch
   }
 
   return (

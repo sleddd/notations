@@ -20,6 +20,7 @@ export const Header = () => {
                 <div className="left-menu">
                     <Link href="/"><HistoryEduIcon /></Link>
                     <Clock />
+                    <Link href="/collections">View Collections</Link>
                 </div>
                 <div className="right-menu">
                     <LoginForm />

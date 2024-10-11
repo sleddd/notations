@@ -181,6 +181,18 @@
       }
     }
 
+    .post-list__collections { 
+      @apply flex flex-col flex-wrap justify-between items-center gap-2;
+
+      a {
+        @apply uppercase text-shadow text-white text-lg p-3;
+       }
+    }
+
+    .post-list__collections--title {
+      @apply uppercase text-shadow text-white text-lg p-3;
+    }
+
     .post-list__items {
       @apply w-5/6 md:w-3/6 flex flex-col items-start justify-center gap-5 mr-0 mt-5 p-3 pt-10 pb-7;
 
@@ -188,6 +200,12 @@
         @apply relative w-full bg-[--bright-white] bg-opacity-70 p-5 text-black;
         border-radius: 4px;
         box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+
+        .post-list__item--bookmarked {
+          @apply absolute;
+          right: 10px;
+          top: -7px;
+        }
 
         .image-edit-form {
           @apply flex flex-row flex-wrap justify-between items-center gap-2;
@@ -204,7 +222,7 @@
 
         .post-list__item__signifiers,
         .post-list__actions {
-          @apply bg-transparent pt-2 pb-2 pr-2 text-lg;
+          @apply bg-transparent pt-2 pb-2 pr-2 text-lg text-gray-500;
 
           .post-list__action-button {
             @apply bg-transparent pt-2 pb-2 pr-2 text-lg;
@@ -248,10 +266,6 @@
             @apply text-sm pl-3 pr-3 pt-2 pb-2;
             transition: all 0.2s ease-in-out;
 
-            &.bookmark {
-              @apply bg-gray-300;
-            }
-
             &.migrating {
               @apply border-t border-gray-300 border-b;
             }
@@ -260,8 +274,52 @@
               @apply bg-gray-500 text-white;
             }
 
-            ul {
-              display: none;
+            &.bookmark {
+              @apply bg-gray-200;
+
+              &:hover {
+                @apply bg-gray-200 text-black;
+              }
+
+              ul {
+                @apply p-2 pt-4;
+              }
+
+              li {
+                @apply flex flex-row flex-wrap justify-between items-center gap-0 p-1 pr-1 pl-1 border-t;
+                transition: all 0.2s ease-in-out;
+
+
+                &:hover {
+                  @apply bg-gray-200 text-black font-bold border-b;
+                  text-decoration: underline;
+                }
+
+                span {
+                  color: black;
+                  font-size: px;
+
+                  &:hover {
+                    color: red;
+                    border-color: red;
+                  }
+                }
+              }
+
+              form {
+                @apply w-full bg-transparent text-[#000000];
+
+                input {
+                  @apply w-full bg-transparent text-[#000000] p-2 border-b border-[#000000] border-opacity-80;
+                  outline: 0;
+
+                  &::placeholder {
+                    @apply text-[#000000] opacity-80 font-light italic;
+                  }
+                }
+              }
+
+
             }
           }
         }
@@ -321,6 +379,10 @@
   .clock {
     @apply bg-transparent text-white text-shadow;
   }
+}
+
+h1.next-error-h1, h1.next-error-h1 + div {
+  @apply text-white text-center text-4xl border-white;
 }
 
 /* Animations */

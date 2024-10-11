@@ -3,6 +3,7 @@ import {
     createContext, 
     useContext 
 } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { PostListItem } from '@/components/postList/post-list-item/PostListItem';
 import { PostListNewItem } from '@/components/postList/post-list-item/PostListNewItem';
@@ -12,6 +13,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 // Default post state of PostList.
 export const PostListState = {
     posts: [],
+    collections: [],
     date: new Date(),
     refetch: () => { },
 }
@@ -32,6 +34,11 @@ export const PostList = ({ value }) => {
 
 // PostListContent is the actual component that will render the PostList.
 export const PostListContent = () => {
+    // Check page path. 
+    const pathName = usePathname();
+    const parts = pathName.split('/');
+    const isCollection = parts[1] === 'collection';
+    const collection = parts[2];
     const { posts, refetch, date } = useContext( PostListContext );
 
     // Calculate the previous day linke in year/month/day format.
@@ -46,11 +53,18 @@ export const PostListContent = () => {
 
     return (
         <div className="post-list">
-            <div className="post-list__nav">
-                <Link href={previousDayLink}><ArrowBackIosIcon /></Link>
-                <p className="post-list__date">{date.toDateString()}</p>
-                <Link href={nextDayLink}><ArrowForwardIosIcon /></Link>
-            </div>
+            { ! isCollection ?
+                <div className="post-list__nav">
+                    <Link href={previousDayLink}><ArrowBackIosIcon /></Link>
+                    <p className="post-list__date">{date.toDateString()}</p>
+                    <Link href={nextDayLink}><ArrowForwardIosIcon /></Link>
+                </div>
+            : 
+                <>
+                    <h1 className="post-list__collections--title">{ collection } collection</h1>
+                    <p><Link href="/collections">Back to collections</Link></p>
+                </>
+            }
             <ul className="post-list__items">
                 <PostListNewItem />
                 {posts?.map(({ node }) => (
