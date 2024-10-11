@@ -27,9 +27,8 @@ export const PostListItem = ({ post }) => {
     const postListClasses = 'image' == postFormat ? 'post-list__item post-list__item--image' : 'post-list__item post-list__item--standard';
 
     const handlePostListItemEvent = (e) => {
-        e.stopPropagation();
-
-        if (!e.target.classList.contains('post-list__item') && e.target.tagName != 'TEXTAREA') {
+        e.preventDefault();
+        if (!e.target.classList.contains('post-list__item---text') && e.target.tagName != 'TEXTAREA' && e.target.tagName != 'DIV') {
             return;
         }
 
@@ -46,11 +45,6 @@ export const PostListItem = ({ post }) => {
         <li
             key={post.id}
             className={postListClasses}
-            onClick={handlePostListItemEvent}
-            onKeyDown={handlePostListItemEvent}
-            onKeyUp={handlePostListItemEvent}
-            onTouchStart={handlePostListItemEvent}
-            onTouchEnd={handlePostListItemEvent}
         >
             { postCollections?.length ? <span className="post-list__item--bookmarked"><BookmarkIcon/></span> : '' }
             {isEditing &&
@@ -77,7 +71,14 @@ export const PostListItem = ({ post }) => {
             {!isEditing &&
                 <>
                     {'standard' == postFormat || 'link' == postFormat ?
-                        post?.content?.replace(/<[^>]*>?/gm, '') :
+                        <div 
+                            className="post-list__item--text"
+                            onClick={handlePostListItemEvent}
+                            onKeyDown={handlePostListItemEvent}
+                            onTouchStart={handlePostListItemEvent}
+                            onTouchEnd={handlePostListItemEvent}
+                        >{post?.content?.replace(/<[^>]*>?/gm, '')}
+                        </div> :
                         <img src={post?.featuredImage?.node?.link} loading="lazy" />
                     }
                 </>
@@ -87,17 +88,11 @@ export const PostListItem = ({ post }) => {
                 postCollections={postCollections}
                 postid={post?.postId}
             />
-            <div className="post-list__item__footer-actions">
-                <SignifierSwitcher
-                    postid={post?.postId}
-                    postSignifiers={post.categories.edges}
-                />
-                { 'image' == postFormat && 
-                    <Reactions
-                        post={post}
-                    /> 
-                }
-            </div>
+            <SignifierSwitcher
+                postid={post?.postId}
+                postSignifiers={post.categories.edges}
+            />
+            { 'image' == postFormat && <Reactions post={post} />  }
         </li>
     );
 }
