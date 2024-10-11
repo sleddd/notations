@@ -29,10 +29,59 @@ https://gist.github.com/sleddd/dafe1f8e0f392ec9f1c142b914a680c2
 It also uses an additional post meta query field and update post meta mutation: 
 https://gist.github.com/sleddd/a036927de7bc9b0dede75367c0ec3bb2
 
-You also need to add theme and post format support:\
+You also need to add theme and post format support:
+```
 add_theme_support( 'post-formats', array( 'standard', 'link', 'image' ) );\
 add_theme_support('post-thumbnails');\
 add_post_type_support('post', 'thumbnail');
+```
+
+You will also need to add a private taxonomy for collections:
+```
+// Add custom collection taxonomy.
+add_action( 'init', function() {
+	$labels = array(
+        'name'              => _x( 'Collections', 'taxonomy general name' ),
+        'singular_name'     => _x( 'Collection', 'taxonomy singular name' ),
+        'search_items'      => __( 'Search Collections' ),
+        'all_items'         => __( 'All Collections' ),
+        'parent_item'       => __( 'Parent Collection' ),
+        'parent_item_colon' => __( 'Parent Collection:' ),
+        'edit_item'         => __( 'Edit Collection' ),
+        'update_item'       => __( 'Update Collection' ),
+        'add_new_item'      => __( 'Add New Collection' ),
+        'new_item_name'     => __( 'New Collection Name' ),
+        'menu_name'         => __( 'Collections' ),
+    );
+
+    $args = array(
+        'hierarchical'      => false,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'show_in_graphql'   => true,
+        'public'            => false,
+        'graphql_single_name' => 'collection',
+        'graphql_plural_name' => 'collections',
+        'rewrite'           => array( 'slug' => 'collection' ),
+    );
+
+    register_taxonomy( 'collection', array( 'post' ), $args );
+
+	// Add default bookmarks term.
+    $bookmarks_term = term_exists( 'Bookmarks', 'collection' );
+    if ( $bookmarks_term === 0 || $bookmarks_term === null ) {
+        wp_insert_term(
+            'Bookmarks',
+            'collection',
+            array(
+                'slug' => 'bookmarks'
+            )
+        );
+    }
+});
+```
 
 ---
 
