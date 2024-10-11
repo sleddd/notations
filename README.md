@@ -69,7 +69,7 @@ add_action( 'init', function() {
 
     register_taxonomy( 'collection', array( 'post' ), $args );
 
-	// Add default bookmarks term.
+    // Add default bookmarks term.
     $bookmarks_term = term_exists( 'Bookmarks', 'collection' );
     if ( $bookmarks_term === 0 || $bookmarks_term === null ) {
         wp_insert_term(
