@@ -125,11 +125,11 @@
 
     tr {
       th {
-        @apply p-2.5 pt-5 text-center;
+        @apply p-2.5 pt-5 text-center text-white;
       }
 
       td {
-        @apply text-center font-light p-2.5 border-t border-white border-opacity-40 text-shadow m-7;
+        @apply text-center text-white font-light p-2.5 border-t border-white border-opacity-40 text-shadow m-7;
       }
 
       &:last-child td {
@@ -154,7 +154,7 @@
     }
 
     .current-day span {
-      @apply bg-white bg-opacity-30 p-2;
+      @apply p-3 border border-opacity-30;
     }
   }
 
