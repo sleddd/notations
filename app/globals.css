@@ -196,13 +196,17 @@
     .post-list__items {
       @apply w-5/6 md:w-3/6 flex flex-col items-start justify-center gap-5 mr-0 mt-5 pr-3 pl-3 pt-10 pb-7;
 
+
       .post-list__item {
         @apply relative w-full bg-[--bright-white] bg-opacity-70 p-5 text-black;
         border-radius: 4px;
         box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.80);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
 
         .post-list__item--bookmarked {
-          @apply absolute text-gray-400;
+          @apply absolute text-gray-500;
           left: 15px;
           top: -7px;
         }
@@ -239,7 +243,7 @@
           }
 
           .post-list__item__signifiers-selector {
-            @apply absolute bg-white flex flex-row;
+            @apply absolute bg-[#f1f2f2] flex flex-row rounded;
             bottom: 5px;
             right: 35px;
             z-index: 2;
@@ -356,6 +360,10 @@
           background-color: rgba(255, 255, 255, 0.15);
           backdrop-filter: blur(5px);
           -webkit-backdrop-filter: blur(5px);
+
+          .post-list__item__actions-button  { 
+            @apply bg-transparent text-white;
+          }
 
           .post-list__item__signifiers {
             @apply text-white;
