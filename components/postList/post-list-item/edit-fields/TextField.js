@@ -1,4 +1,5 @@
 'use client';
+import { usePathname } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { PostListContext } from '@/components/postList/PostList';
 import { useMutation } from '@apollo/client';
@@ -10,7 +11,11 @@ export const TextField = ({
     value,
     setIsEditing
  }) => {    
-    const { refetch, date } = useContext(PostListContext);
+    const pathName = usePathname();
+    const parts = pathName.split('/');
+    const isCollection = parts[1] === 'collection'  || parts[1] === 'collections';
+    const collection = parts[2];
+    const { refetch, date, refetchCollections } = useContext(PostListContext);
     const [updatePost] = useMutation(UPDATE_POST);
     const [createPost] = useMutation(CREATE_POST);
     const [inputValue, setInputValue] = useState(value);
@@ -35,25 +40,37 @@ export const TextField = ({
                 setInputValue('');
                 setIsEditing(false);
             } else {
+                let inputVariables =  {
+                    date: formatDateToWP(date),
+                    title: formatDateToWP(date),
+                    content: e.target.value?.replace(/<[^>]*>/g, ''),
+                    status: "PRIVATE",
+                    postFormats: {
+                        append: false,
+                        nodes: [
+                            { name: 'standard' }
+                        ]
+                    }
+                };
+                if ( isCollection ) {
+                    inputVariables.collections = {
+                        append: true,
+                        nodes: [
+                            { slug: collection }
+                        ]
+                    }
+                };
                 // Create new post.
                 await createPost({
                     variables: {
-                        input: {
-                            date: formatDateToWP(date),
-                            title: formatDateToWP(date),
-                            content: e.target.value?.replace(/<[^>]*>/g, ''),
-                            status: "PRIVATE",
-                            postFormats: {
-                                append: false,
-                                nodes: [
-                                    { name: 'standard' }
-                                ]
-                            }
-                        }
+                        input: inputVariables
                     }
                 });
             }
             await refetch();
+            if ( isCollection ) {
+                await refetchCollections();
+            }
             setInputValue('');
             setIsEditing(false);
         }

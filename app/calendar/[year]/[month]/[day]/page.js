@@ -41,7 +41,8 @@ export const CalendarDay = () => {
     collections: collections,
     posts: posts,
     date,
-    refetch: refetch
+    refetch: refetch,
+    refetchCollections: () => {}
   }
 
   return (

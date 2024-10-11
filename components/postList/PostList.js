@@ -16,6 +16,7 @@ export const PostListState = {
     collections: [],
     date: new Date(),
     refetch: () => { },
+    refetchCollections: () => { }
 }
 
 // Setting up PostList context with default PostList state.
@@ -34,10 +35,9 @@ export const PostList = ({ value }) => {
 
 // PostListContent is the actual component that will render the PostList.
 export const PostListContent = () => {
-    // Check page path. 
     const pathName = usePathname();
     const parts = pathName.split('/');
-    const isCollection = parts[1] === 'collection';
+    const isCollection = parts[1] === 'collection'  || parts[1] === 'collections';
     const collection = parts[2];
     const { posts, refetch, date } = useContext( PostListContext );
 

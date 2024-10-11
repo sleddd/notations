@@ -101,7 +101,7 @@ export const GET_POSTS_BY_COLLECTION = gql`
   query GetCollections($slug: [String!]) {
     collections(where: { slug: $slug }) {
       nodes {
-        posts {
+         posts (where: {stati: [PRIVATE, PUBLISH]}) {
           edges {
             node {
               # Basic post information
