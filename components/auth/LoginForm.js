@@ -1,26 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useQuery, useMutation } from '@apollo/client';
-import { GET_USER } from '@/graphql/queries';
+import { useMutation } from '@apollo/client';
 import { LOGOUT } from '@/graphql/mutations';
+
 
 export const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [signInError, setSignInError] = useState(null);
-  const { data: session, status } = useSession();
-  const { data, refetch } = useQuery(GET_USER, {
-    skip: !session,
-  });
   const [logout] = useMutation(LOGOUT);
-
-  useEffect(() => {
-    if (session) {
-      refetch();
-    }
-  }, [session, refetch]);
+  const { data: session, status } = useSession();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,8 +27,8 @@ export const LoginForm = () => {
 
   const handleLogout = async (e) => {
     e.preventDefault();
-    const { data } = await logout();
-    const result = await signOut();
+    await signOut();
+    await logout();
   };
 
   if (status === 'loading') {

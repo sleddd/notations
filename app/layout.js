@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
       <body>
         <SessionProvider>
           <ApolloProviderWrapper>
-            <FullWidthBackground className="bg-one" />
+            <FullWidthBackground className="bg-eleven" />
             <main className="main">
               <Header />
               {children}
